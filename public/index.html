@@ -3,8 +3,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="NutriPlan — AI-powered weekly meal planner for Nigerians. Plan your jollof rice, egusi soup, and more within your Naira budget." />
-  <title>NutriPlan — Nigerian AI Meal Planner</title>
+
+  <!-- PRIMARY SEO -->
+  <title>NutriPlan — Nigerian Meal Planner | Weekly Food Timetable with AI</title>
+  <meta name="description" content="Free AI-powered Nigerian meal planner. Generate a personalized 7-day food timetable with jollof rice, egusi soup, amala and more — tailored to your Naira budget and health goal. Ready in 2 minutes." />
+  <meta name="keywords" content="Nigerian meal planner, weekly food timetable Nigeria, Nigerian diet plan, meal plan Nigeria, jollof rice meal plan, naira food budget, Nigerian nutrition" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://nutriplan-ypfz.vercel.app/" />
+
+  <!-- OPEN GRAPH -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://nutriplan-ypfz.vercel.app/" />
+  <meta property="og:title" content="NutriPlan — Free Nigerian AI Meal Planner" />
+  <meta property="og:description" content="Generate your personalized 7-day Nigerian meal plan in under 2 minutes. Jollof rice, egusi soup, amala & more — planned within your Naira budget." />
+  <meta property="og:locale" content="en_NG" />
+  <meta property="og:site_name" content="NutriPlan" />
+
+  <!-- TWITTER -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="NutriPlan — Free Nigerian AI Meal Planner" />
+  <meta name="twitter:description" content="Generate your personalized 7-day Nigerian meal plan in under 2 minutes. Jollof rice, egusi soup, amala & more — within your Naira budget." />
+
+  <!-- STRUCTURED DATA -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "NutriPlan",
+    "description": "Free AI-powered Nigerian meal planner.",
+    "url": "https://nutriplan-ypfz.vercel.app/",
+    "applicationCategory": "HealthApplication",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "NGN" }
+  }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
@@ -34,73 +66,44 @@
     }
 
     html { scroll-behavior: smooth; }
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--cream);
-      color: var(--text);
-      min-height: 100vh;
-      line-height: 1.6;
-    }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; line-height: 1.6; }
 
     /* HEADER */
-    header {
-      background: var(--forest);
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 20px rgba(0,0,0,0.15);
-    }
+    header { background: var(--forest); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(0,0,0,0.15); }
     .logo { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 700; color: #fff; letter-spacing: -0.02em; }
     .logo span { color: var(--gold); }
-    .header-pill {
-      background: rgba(196,151,42,0.2);
-      border: 1px solid var(--gold);
-      color: var(--gold);
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 3px 10px;
-      border-radius: 20px;
-    }
+    .header-pill { background: rgba(196,151,42,0.2); border: 1px solid var(--gold); color: var(--gold); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 10px; border-radius: 20px; }
 
     /* HERO */
-    .hero {
-      background: linear-gradient(135deg, var(--forest) 0%, #0D2218 100%);
-      padding: 4rem 2rem 3.5rem;
-      text-align: center;
-    }
-    .hero-eyebrow {
-      display: inline-block;
-      background: rgba(196,151,42,0.15);
-      border: 1px solid rgba(196,151,42,0.4);
-      color: var(--gold);
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 5px 14px;
-      border-radius: 20px;
-      margin-bottom: 1.25rem;
-    }
-    .hero h1 {
-      font-family: 'Fraunces', serif;
-      font-size: clamp(2rem, 5vw, 3.4rem);
-      font-weight: 700;
-      color: #fff;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      margin-bottom: 1rem;
-    }
+    .hero { background: linear-gradient(135deg, var(--forest) 0%, #0D2218 100%); padding: 4rem 2rem 3.5rem; text-align: center; }
+    .hero-eyebrow { display: inline-block; background: rgba(196,151,42,0.15); border: 1px solid rgba(196,151,42,0.4); color: var(--gold); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 1.25rem; }
+    .hero h1 { font-family: 'Fraunces', serif; font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 700; color: #fff; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 1rem; }
     .hero h1 em { font-style: italic; color: var(--gold); }
     .hero p { color: rgba(255,255,255,0.65); font-size: 1.05rem; max-width: 520px; margin: 0 auto 2rem; }
-    .hero-stats { display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; }
+    .hero-stats { display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
     .hs-num { font-family: 'Fraunces', serif; font-size: 1.8rem; font-weight: 700; color: var(--gold); display: block; }
     .hs-lbl { font-size: 0.7rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* HERO CTA */
+    .hero-cta { background: var(--gold); color: #1A1A00; border: none; border-radius: var(--radius-md); padding: 0.95rem 2.25rem; font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; box-shadow: 0 4px 20px rgba(196,151,42,0.35); }
+    .hero-cta:hover { background: #D4A730; transform: translateY(-2px); box-shadow: 0 6px 24px rgba(196,151,42,0.45); }
+
+    /* LANDING */
+    .landing { background: var(--warm); border-bottom: 1px solid var(--border); }
+    .landing-inner { max-width: 960px; margin: 0 auto; padding: 4rem 1.5rem; }
+    .landing-intro { max-width: 680px; margin: 0 auto 3rem; text-align: center; }
+    .landing-intro h2 { font-family: 'Fraunces', serif; font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; color: var(--forest); margin-bottom: 1rem; letter-spacing: -0.02em; }
+    .landing-intro p { font-size: 0.95rem; color: var(--text-mid); line-height: 1.75; margin-bottom: 0.75rem; }
+    .how-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 3rem; }
+    @media(max-width:640px){ .how-grid { grid-template-columns: 1fr; } }
+    .how-card { background: var(--cream); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; }
+    .how-num { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 700; color: var(--sage-l); line-height: 1; margin-bottom: 0.75rem; }
+    .how-title { font-size: 0.95rem; font-weight: 600; color: var(--forest); margin-bottom: 0.5rem; }
+    .how-desc { font-size: 0.82rem; color: var(--text-light); line-height: 1.65; }
+    .dishes-section { margin-bottom: 3rem; text-align: center; }
+    .dishes-section h3 { font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 600; color: var(--forest); margin-bottom: 1rem; }
+    .dishes-wrap { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .dish-tag { background: var(--gold-l); border: 1px solid rgba(196,151,42,0.3); color: var(--text-mid); font-size: 0.82rem; font-weight: 500; padding: 5px 14px; border-radius: 20px; }
 
     /* LAYOUT */
     .app-wrap { max-width: 760px; margin: 0 auto; padding: 0 1.5rem 5rem; }
@@ -110,18 +113,7 @@
     .steps-row { display: flex; align-items: center; }
     .step-item { display: flex; align-items: center; flex: 1; }
     .step-item:last-child { flex: 0; }
-    .step-dot {
-      width: 34px; height: 34px;
-      border-radius: 50%;
-      border: 2px solid var(--border);
-      background: var(--warm);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.8rem; font-weight: 600;
-      color: var(--text-light);
-      flex-shrink: 0;
-      transition: all 0.25s;
-      position: relative; z-index: 1;
-    }
+    .step-dot { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--border); background: var(--warm); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 600; color: var(--text-light); flex-shrink: 0; transition: all 0.25s; position: relative; z-index: 1; }
     .step-dot.active { border-color: var(--forest); background: var(--forest); color: #fff; }
     .step-dot.done   { border-color: var(--sage);   background: var(--sage);   color: #fff; }
     .step-line { flex: 1; height: 2px; background: var(--border); transition: background 0.25s; }
@@ -136,14 +128,7 @@
     @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 
     /* CARDS */
-    .card {
-      background: var(--warm);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-xl);
-      padding: 1.75rem;
-      margin-bottom: 1.25rem;
-      box-shadow: 0 4px 24px var(--shadow);
-    }
+    .card { background: var(--warm); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 1.75rem; margin-bottom: 1.25rem; box-shadow: 0 4px 24px var(--shadow); }
     .section-title { font-family: 'Fraunces', serif; font-size: 1.25rem; font-weight: 600; color: var(--forest); margin-bottom: 0.3rem; letter-spacing: -0.01em; }
     .section-sub { font-size: 0.85rem; color: var(--text-light); margin-bottom: 1.25rem; }
     .divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
@@ -153,17 +138,7 @@
     .g3 { grid-template-columns: repeat(3, 1fr); }
     .g2 { grid-template-columns: repeat(2, 1fr); }
     @media (max-width: 520px) { .g3 { grid-template-columns: repeat(2, 1fr); } }
-
-    .opt-btn {
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 0.875rem 0.75rem;
-      background: var(--cream);
-      cursor: pointer;
-      text-align: left;
-      transition: all 0.18s;
-      font-family: 'DM Sans', sans-serif;
-    }
+    .opt-btn { border: 1.5px solid var(--border); border-radius: var(--radius-md); padding: 0.875rem 0.75rem; background: var(--cream); cursor: pointer; text-align: left; transition: all 0.18s; font-family: 'DM Sans', sans-serif; }
     .opt-btn:hover { border-color: var(--sage); background: #fff; transform: translateY(-1px); box-shadow: 0 4px 12px var(--shadow); }
     .opt-btn.selected { border-color: var(--forest); background: var(--forest); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(28,58,42,0.2); }
     .opt-emoji { font-size: 1.5rem; display: block; margin-bottom: 6px; }
@@ -172,16 +147,7 @@
     .opt-btn.selected .opt-label, .opt-btn.selected .opt-desc { color: rgba(255,255,255,0.9); }
 
     /* CUISINE */
-    .cuisine-btn {
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 0.75rem;
-      background: var(--cream);
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.18s;
-      font-family: 'DM Sans', sans-serif;
-    }
+    .cuisine-btn { border: 1.5px solid var(--border); border-radius: var(--radius-md); padding: 0.75rem; background: var(--cream); cursor: pointer; text-align: center; transition: all 0.18s; font-family: 'DM Sans', sans-serif; }
     .cuisine-btn:hover { border-color: var(--sage); background: #fff; }
     .cuisine-btn.selected { border-color: var(--sage); background: rgba(92,138,106,0.12); }
     .cuisine-btn .ce { font-size: 1.4rem; display: block; margin-bottom: 4px; }
@@ -190,77 +156,34 @@
 
     /* MEALS */
     .meals-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
-    .meal-opt {
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 1rem;
-      text-align: center;
-      cursor: pointer;
-      background: var(--cream);
-      transition: all 0.18s;
-      font-family: 'DM Sans', sans-serif;
-    }
+    .meal-opt { border: 1.5px solid var(--border); border-radius: var(--radius-md); padding: 1rem; text-align: center; cursor: pointer; background: var(--cream); transition: all 0.18s; font-family: 'DM Sans', sans-serif; }
     .meal-opt:hover { border-color: var(--sage); background: #fff; }
     .meal-opt.selected { border-color: var(--forest); background: var(--forest); }
     .meal-opt .mn { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 700; color: var(--forest); display: block; line-height: 1; }
     .meal-opt .ml { font-size: 0.72rem; color: var(--text-light); margin-top: 4px; display: block; }
     .meal-opt.selected .mn, .meal-opt.selected .ml { color: rgba(255,255,255,0.9); }
 
-    /* BUDGET SLIDER */
+    /* BUDGET */
     .budget-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.75rem; }
     .budget-num { font-family: 'Fraunces', serif; font-size: 2.4rem; font-weight: 700; color: var(--forest); line-height: 1; }
     .budget-period { font-size: 0.8rem; color: var(--text-light); }
-    input[type=range] {
-      -webkit-appearance: none;
-      width: 100%; height: 6px;
-      background: linear-gradient(to right, var(--forest) 0%, var(--forest) var(--val, 11%), var(--border) var(--val, 11%));
-      border-radius: 3px; outline: none; border: none; cursor: pointer;
-    }
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 22px; height: 22px;
-      border-radius: 50%;
-      background: var(--forest);
-      border: 3px solid #fff;
-      box-shadow: 0 2px 8px rgba(28,58,42,0.3);
-      cursor: pointer;
-    }
+    input[type=range] { -webkit-appearance: none; width: 100%; height: 6px; background: linear-gradient(to right, var(--forest) 0%, var(--forest) var(--val, 7%), var(--border) var(--val, 7%)); border-radius: 3px; outline: none; border: none; cursor: pointer; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--forest); border: 3px solid #fff; box-shadow: 0 2px 8px rgba(28,58,42,0.3); cursor: pointer; }
     .range-labels { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-light); margin-top: 6px; }
 
     /* BUTTONS */
     .btn-row { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; gap: 12px; }
-    .btn-primary {
-      background: var(--forest); color: #fff; border: none;
-      border-radius: var(--radius-md); padding: 0.875rem 2rem;
-      font-family: 'DM Sans', sans-serif; font-size: 0.925rem; font-weight: 600;
-      cursor: pointer; display: inline-flex; align-items: center; gap: 7px; transition: all 0.18s;
-    }
+    .btn-primary { background: var(--forest); color: #fff; border: none; border-radius: var(--radius-md); padding: 0.875rem 2rem; font-family: 'DM Sans', sans-serif; font-size: 0.925rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; transition: all 0.18s; }
     .btn-primary:hover { background: var(--forest-l); box-shadow: 0 4px 16px rgba(28,58,42,0.25); }
     .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-    .btn-secondary {
-      background: transparent; border: 1.5px solid var(--border);
-      border-radius: var(--radius-md); padding: 0.875rem 1.5rem;
-      font-family: 'DM Sans', sans-serif; font-size: 0.925rem; font-weight: 500;
-      color: var(--text-mid); cursor: pointer; transition: all 0.18s;
-    }
+    .btn-secondary { background: transparent; border: 1.5px solid var(--border); border-radius: var(--radius-md); padding: 0.875rem 1.5rem; font-family: 'DM Sans', sans-serif; font-size: 0.925rem; font-weight: 500; color: var(--text-mid); cursor: pointer; transition: all 0.18s; }
     .btn-secondary:hover { border-color: var(--forest); color: var(--forest); background: rgba(28,58,42,0.04); }
-    .btn-ghost {
-      background: none; border: none; font-family: 'DM Sans', sans-serif;
-      font-size: 0.875rem; color: var(--text-light); cursor: pointer;
-      padding: 0.5rem; display: inline-flex; align-items: center; gap: 5px;
-    }
+    .btn-ghost { background: none; border: none; font-family: 'DM Sans', sans-serif; font-size: 0.875rem; color: var(--text-light); cursor: pointer; padding: 0.5rem; display: inline-flex; align-items: center; gap: 5px; }
     .btn-ghost:hover { color: var(--forest); }
 
     /* LOADING */
     .loading-wrap { text-align: center; padding: 3.5rem 1rem; }
-    .spinner {
-      width: 48px; height: 48px;
-      border: 3px solid var(--border);
-      border-top-color: var(--forest);
-      border-radius: 50%;
-      animation: spin 0.85s linear infinite;
-      margin: 0 auto 1.5rem;
-    }
+    .spinner { width: 48px; height: 48px; border: 3px solid var(--border); border-top-color: var(--forest); border-radius: 50%; animation: spin 0.85s linear infinite; margin: 0 auto 1.5rem; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .loading-title { font-family: 'Fraunces', serif; font-size: 1.35rem; color: var(--forest); margin-bottom: 0.5rem; }
     .loading-steps { max-width: 280px; margin: 1.5rem auto 0; display: flex; flex-direction: column; gap: 8px; }
@@ -305,6 +228,23 @@
     /* TOAST */
     .toast { background: #FEF3F2; border: 1px solid #FECACA; border-radius: var(--radius-md); padding: 0.75rem 1rem; font-size: 0.85rem; color: #7F1D1D; margin-bottom: 1rem; display: none; }
 
+    /* PRICE DISCLAIMER */
+    .price-disclaimer { display: flex; gap: 10px; align-items: flex-start; background: var(--gold-l); border: 1px solid rgba(196,151,42,0.35); border-radius: var(--radius-md); padding: 0.75rem 1rem; font-size: 0.8rem; color: var(--text-mid); line-height: 1.6; margin-bottom: 1rem; }
+    .pd-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+    .price-disclaimer strong { color: var(--text); font-weight: 600; }
+
+    /* FAQ */
+    .faq-outer { background: var(--cream); border-top: 1px solid var(--border); padding: 3rem 0; }
+    .faq-section h3 { font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 600; color: var(--forest); margin-bottom: 1.25rem; text-align: center; }
+    .faq-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; }
+    @media(max-width:640px){ .faq-grid { grid-template-columns: 1fr; } }
+    .faq-item { background: var(--warm); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.1rem 1.25rem; }
+    .faq-q { font-size: 0.875rem; font-weight: 600; color: var(--forest); margin-bottom: 0.5rem; }
+    .faq-a { font-size: 0.8rem; color: var(--text-light); line-height: 1.65; }
+
+    /* HIDE utility */
+    .np-hidden { display: none !important; }
+
     /* FOOTER */
     footer { background: var(--forest); color: rgba(255,255,255,0.45); text-align: center; padding: 1.5rem; font-size: 0.78rem; margin-top: 4rem; }
     footer strong { color: rgba(255,255,255,0.85); font-family: 'Fraunces', serif; }
@@ -317,7 +257,8 @@
   <div class="header-pill">🇳🇬 Made for Nigerians</div>
 </header>
 
-<section class="hero" aria-label="NutriPlan hero">
+<!-- HERO -->
+<section class="hero" id="hero-section" aria-label="NutriPlan hero">
   <div class="hero-eyebrow">✦ AI Powered · Free to use</div>
   <h1>Your naija food, your budget,<br><em>your week.</em></h1>
   <p>From jollof rice to egusi soup — get a full 7-day Nigerian meal plan tailored to your diet, health goal, and Naira budget. Ready in under 2 minutes.</p>
@@ -326,65 +267,73 @@
     <div><span class="hs-num">₦10k–₦150k</span><span class="hs-lbl">Budget range</span></div>
     <div><span class="hs-num">4</span><span class="hs-lbl">Nigerian regions</span></div>
   </div>
+  <button class="hero-cta" onclick="scrollToApp()">Get started — it's free →</button>
 </section>
+
+<!-- LANDING -->
+<section class="landing" id="landing-section" aria-label="About NutriPlan">
+  <div class="landing-inner">
+    <div class="landing-intro">
+      <h2>Nigeria's first AI-powered meal planner</h2>
+      <p>Most meal planning apps are built for Western diets. They don't know what jollof rice is. They price meals in dollars. They suggest quinoa bowls to someone in Lagos.</p>
+      <p>NutriPlan is different. Built specifically for Nigerians — with Naira budgets, real Nigerian dishes, and regional cuisine options across Yoruba, Igbo, Hausa, and Delta/Rivers food cultures.</p>
+    </div>
+    <div class="how-grid">
+      <div class="how-card"><div class="how-num">01</div><div class="how-title">Tell us about yourself</div><div class="how-desc">Choose your dietary preference, health goal, weekly Naira budget, and Nigerian cuisine — takes under 60 seconds.</div></div>
+      <div class="how-card"><div class="how-num">02</div><div class="how-title">AI builds your plan</div><div class="how-desc">Claude AI generates a personalized 7-day Nigerian meal timetable — breakfast, lunch, dinner, and snacks tailored to your preferences.</div></div>
+      <div class="how-card"><div class="how-num">03</div><div class="how-title">Get your shopping list</div><div class="how-desc">One click generates a complete Nigerian market shopping list organized by category — ready to take to the market.</div></div>
+    </div>
+    <div class="dishes-section">
+      <h3>Nigerian dishes we plan around</h3>
+      <div class="dishes-wrap">
+        <span class="dish-tag">Jollof Rice</span><span class="dish-tag">Egusi Soup</span><span class="dish-tag">Pounded Yam</span><span class="dish-tag">Amala & Ewedu</span><span class="dish-tag">Ofada Rice</span><span class="dish-tag">Banga Soup</span><span class="dish-tag">Ofe Onugbu</span><span class="dish-tag">Tuwo Shinkafa</span><span class="dish-tag">Efo Riro</span><span class="dish-tag">Afang Soup</span><span class="dish-tag">Moi Moi</span><span class="dish-tag">Akara</span><span class="dish-tag">Suya</span><span class="dish-tag">Pepper Soup</span><span class="dish-tag">Ogbono Soup</span><span class="dish-tag">Oha Soup</span><span class="dish-tag">Eba & Okra</span><span class="dish-tag">Miyan Kuka</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APP ANCHOR -->
+<div id="app-anchor"></div>
 
 <main class="app-wrap">
 
   <!-- PROGRESS -->
   <div class="progress-wrap" aria-label="Steps progress">
     <div class="steps-row">
-      <div class="step-item">
-        <div class="step-dot active" id="dot1" aria-label="Step 1">1</div>
-        <div class="step-line" id="line1"></div>
-      </div>
-      <div class="step-item">
-        <div class="step-dot" id="dot2" aria-label="Step 2">2</div>
-        <div class="step-line" id="line2"></div>
-      </div>
-      <div class="step-item" style="flex:0">
-        <div class="step-dot" id="dot3" aria-label="Step 3">3</div>
-      </div>
+      <div class="step-item"><div class="step-dot active" id="dot1">1</div><div class="step-line" id="line1"></div></div>
+      <div class="step-item"><div class="step-dot" id="dot2">2</div><div class="step-line" id="line2"></div></div>
+      <div class="step-item" style="flex:0"><div class="step-dot" id="dot3">3</div></div>
     </div>
-    <div class="step-labels">
-      <span>Diet & Goals</span>
-      <span>Budget & Cuisine</span>
-      <span>Your Plan</span>
-    </div>
+    <div class="step-labels"><span>Diet & Goals</span><span>Budget & Cuisine</span><span>Your Plan</span></div>
   </div>
 
-  <!-- STEP 1: DIET & GOALS -->
+  <!-- STEP 1 -->
   <div class="step-panel active" id="panel1">
     <div class="card">
       <div class="section-title">Dietary preference</div>
       <div class="section-sub">Choose the eating style that fits your lifestyle</div>
       <div class="opt-grid g3" id="diet-grid">
-        <button class="opt-btn" data-val="balanced"      onclick="pick(this,'diet')"><span class="opt-emoji">🥗</span><span class="opt-label">Balanced</span><span class="opt-desc">Mix of everything</span></button>
-        <button class="opt-btn" data-val="vegan"         onclick="pick(this,'diet')"><span class="opt-emoji">🌱</span><span class="opt-label">Vegan</span><span class="opt-desc">Plant-based only</span></button>
-        <button class="opt-btn" data-val="keto"          onclick="pick(this,'diet')"><span class="opt-emoji">🥩</span><span class="opt-label">Keto</span><span class="opt-desc">Low-carb, high-fat</span></button>
-        <button class="opt-btn" data-val="vegetarian"    onclick="pick(this,'diet')"><span class="opt-emoji">🥦</span><span class="opt-label">Vegetarian</span><span class="opt-desc">No meat</span></button>
-        <button class="opt-btn" data-val="high_protein"  onclick="pick(this,'diet')"><span class="opt-emoji">💪</span><span class="opt-label">High Protein</span><span class="opt-desc">Muscle-focused meals</span></button>
-        <button class="opt-btn" data-val="low_carb"      onclick="pick(this,'diet')"><span class="opt-emoji">🫘</span><span class="opt-label">Low Carb</span><span class="opt-desc">Reduce starchy foods</span></button>
+        <button class="opt-btn" data-val="balanced"     onclick="pick(this,'diet')"><span class="opt-emoji">🥗</span><span class="opt-label">Balanced</span><span class="opt-desc">Mix of everything</span></button>
+        <button class="opt-btn" data-val="vegan"        onclick="pick(this,'diet')"><span class="opt-emoji">🌱</span><span class="opt-label">Vegan</span><span class="opt-desc">Plant-based only</span></button>
+        <button class="opt-btn" data-val="keto"         onclick="pick(this,'diet')"><span class="opt-emoji">🥩</span><span class="opt-label">Keto</span><span class="opt-desc">Low-carb, high-fat</span></button>
+        <button class="opt-btn" data-val="vegetarian"   onclick="pick(this,'diet')"><span class="opt-emoji">🥦</span><span class="opt-label">Vegetarian</span><span class="opt-desc">No meat</span></button>
+        <button class="opt-btn" data-val="high_protein" onclick="pick(this,'diet')"><span class="opt-emoji">💪</span><span class="opt-label">High Protein</span><span class="opt-desc">Muscle-focused meals</span></button>
+        <button class="opt-btn" data-val="low_carb"     onclick="pick(this,'diet')"><span class="opt-emoji">🫘</span><span class="opt-label">Low Carb</span><span class="opt-desc">Reduce starchy foods</span></button>
       </div>
-
       <div class="divider"></div>
-
       <div class="section-title">Health goal</div>
       <div class="section-sub">What are you working towards?</div>
       <div class="opt-grid g2" id="goal-grid">
-        <button class="opt-btn" data-val="weight_loss"  onclick="pick(this,'goal')"><span class="opt-emoji">📉</span><span class="opt-label">Weight loss</span><span class="opt-desc">Calorie deficit meals</span></button>
-        <button class="opt-btn" data-val="muscle_gain"  onclick="pick(this,'goal')"><span class="opt-emoji">🏋️</span><span class="opt-label">Muscle gain</span><span class="opt-desc">High protein focus</span></button>
-        <button class="opt-btn" data-val="maintenance"  onclick="pick(this,'goal')"><span class="opt-emoji">⚖️</span><span class="opt-label">Maintenance</span><span class="opt-desc">Balanced calories</span></button>
-        <button class="opt-btn" data-val="energy"       onclick="pick(this,'goal')"><span class="opt-emoji">⚡</span><span class="opt-label">More energy</span><span class="opt-desc">Nutrient-dense meals</span></button>
+        <button class="opt-btn" data-val="weight_loss" onclick="pick(this,'goal')"><span class="opt-emoji">📉</span><span class="opt-label">Weight loss</span><span class="opt-desc">Calorie deficit meals</span></button>
+        <button class="opt-btn" data-val="muscle_gain" onclick="pick(this,'goal')"><span class="opt-emoji">🏋️</span><span class="opt-label">Muscle gain</span><span class="opt-desc">High protein focus</span></button>
+        <button class="opt-btn" data-val="maintenance" onclick="pick(this,'goal')"><span class="opt-emoji">⚖️</span><span class="opt-label">Maintenance</span><span class="opt-desc">Balanced calories</span></button>
+        <button class="opt-btn" data-val="energy"      onclick="pick(this,'goal')"><span class="opt-emoji">⚡</span><span class="opt-label">More energy</span><span class="opt-desc">Nutrient-dense meals</span></button>
       </div>
-
-      <div class="btn-row">
-        <span></span>
-        <button class="btn-primary" onclick="goStep(2)">Continue →</button>
-      </div>
+      <div class="btn-row"><span></span><button class="btn-primary" onclick="goStep(2)">Continue →</button></div>
     </div>
   </div>
 
-  <!-- STEP 2: BUDGET & CUISINE -->
+  <!-- STEP 2 -->
   <div class="step-panel" id="panel2">
     <div class="card">
       <div class="section-title">Weekly food budget</div>
@@ -395,22 +344,18 @@
       </div>
       <input type="range" min="10000" max="150000" step="2500" value="20000" id="budget-slider" aria-label="Weekly budget slider" oninput="updateBudget(this.value)">
       <div class="range-labels"><span>₦10,000</span><span>₦150,000</span></div>
-
       <div class="divider"></div>
-
       <div class="section-title">Your Nigerian cuisine</div>
       <div class="section-sub">Pick your tribe's cuisine — we'll build your plan around it</div>
       <div class="opt-grid g3" id="cuisine-grid">
-        <button class="cuisine-btn" data-val="yoruba"    onclick="toggleCuisine(this)"><span class="ce">🍲</span><span class="cl">Yoruba</span></button>
-        <button class="cuisine-btn" data-val="igbo"      onclick="toggleCuisine(this)"><span class="ce">🥘</span><span class="cl">Igbo</span></button>
-        <button class="cuisine-btn" data-val="hausa"     onclick="toggleCuisine(this)"><span class="ce">🍖</span><span class="cl">Hausa</span></button>
-        <button class="cuisine-btn" data-val="delta"     onclick="toggleCuisine(this)"><span class="ce">🐟</span><span class="cl">Delta/Rivers</span></button>
-        <button class="cuisine-btn" data-val="national"  onclick="toggleCuisine(this)"><span class="ce">🇳🇬</span><span class="cl">All Nigerian</span></button>
-        <button class="cuisine-btn" data-val="any"       onclick="toggleCuisine(this)"><span class="ce">🌍</span><span class="cl">No preference</span></button>
+        <button class="cuisine-btn" data-val="yoruba"   onclick="toggleCuisine(this)"><span class="ce">🍲</span><span class="cl">Yoruba</span></button>
+        <button class="cuisine-btn" data-val="igbo"     onclick="toggleCuisine(this)"><span class="ce">🥘</span><span class="cl">Igbo</span></button>
+        <button class="cuisine-btn" data-val="hausa"    onclick="toggleCuisine(this)"><span class="ce">🍖</span><span class="cl">Hausa</span></button>
+        <button class="cuisine-btn" data-val="delta"    onclick="toggleCuisine(this)"><span class="ce">🐟</span><span class="cl">Delta/Rivers</span></button>
+        <button class="cuisine-btn" data-val="national" onclick="toggleCuisine(this)"><span class="ce">🇳🇬</span><span class="cl">All Nigerian</span></button>
+        <button class="cuisine-btn" data-val="any"      onclick="toggleCuisine(this)"><span class="ce">🌍</span><span class="cl">No preference</span></button>
       </div>
-
       <div class="divider"></div>
-
       <div class="section-title">Meals per day</div>
       <div class="section-sub">How many meals would you like planned?</div>
       <div class="meals-grid" id="meals-grid">
@@ -418,7 +363,6 @@
         <button class="meal-opt" data-val="3" onclick="pick(this,'meals')"><span class="mn">3</span><span class="ml">Breakfast to dinner</span></button>
         <button class="meal-opt" data-val="4" onclick="pick(this,'meals')"><span class="mn">4</span><span class="ml">3 meals + snack</span></button>
       </div>
-
       <div class="btn-row">
         <button class="btn-secondary" onclick="goStep(1)">← Back</button>
         <button class="btn-primary" onclick="goStep(3)">✦ Generate my plan</button>
@@ -446,10 +390,7 @@
   <!-- STEP 4: RESULTS -->
   <div class="step-panel" id="panel4">
     <div class="card">
-      <div class="toast" id="error-toast" role="alert">
-        ⚠️ We couldn't reach the AI right now — showing you a curated Nigerian backup plan instead.
-      </div>
-
+      <div class="toast" id="error-toast" role="alert">⚠️ We couldn't reach the AI right now — showing you a curated Nigerian backup plan instead.</div>
       <div class="result-header">
         <div>
           <div class="result-title">Your weekly meal plan 🇳🇬</div>
@@ -457,34 +398,31 @@
         </div>
         <button class="btn-secondary" style="font-size:0.82rem;padding:0.6rem 1.1rem" onclick="regenerate()">↺ Regenerate</button>
       </div>
-
       <div class="summary-grid">
         <div class="sum-card"><div class="sum-label">Est. weekly cost</div><div class="sum-val" id="est-cost">—</div></div>
         <div class="sum-card"><div class="sum-label">Avg cal/day</div><div class="sum-val" id="est-cal">—</div></div>
         <div class="sum-card"><div class="sum-label">Meals planned</div><div class="sum-val" id="est-meals">—</div></div>
       </div>
-
-      <div class="tt-wrap" role="region" aria-label="Weekly meal timetable">
-        <div class="tt" id="timetable"></div>
-      </div>
-
+      <div class="tt-wrap" role="region" aria-label="Weekly meal timetable"><div class="tt" id="timetable"></div></div>
       <div class="legend">
         <div class="legend-item"><div class="ldot-sq" style="background:#FFF3CD"></div>Breakfast</div>
         <div class="legend-item"><div class="ldot-sq" style="background:#DCF0DC"></div>Lunch</div>
         <div class="legend-item"><div class="ldot-sq" style="background:#C8E8E9"></div>Dinner</div>
         <div class="legend-item"><div class="ldot-sq" style="background:#E8D0EA"></div>Snack</div>
       </div>
-
       <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
         <button class="btn-ghost" onclick="goStep(1)">✎ Edit preferences</button>
         <button class="btn-primary" onclick="getShoppingList(this)">🛒 Get shopping list</button>
       </div>
     </div>
-
     <div id="shopping-card" style="display:none">
       <div class="card" style="animation: fadeUp 0.3s ease;">
         <div class="section-title">🛒 Your shopping list</div>
         <div class="section-sub">Nigerian market ingredients for your 7-day plan</div>
+        <div class="price-disclaimer" role="note">
+          <span class="pd-icon">📊</span>
+          <span>Prices are based on <strong>June 2026 Nigerian market data</strong> and may vary by location, season, and vendor. Lagos prices are typically 10–20% higher than Northern markets. Always confirm prices at your local market before shopping.</span>
+        </div>
         <div id="shopping-content" style="font-size:0.9rem;color:var(--text-mid);white-space:pre-wrap;line-height:1.9;"></div>
       </div>
     </div>
@@ -492,26 +430,66 @@
 
 </main>
 
+<!-- FAQ -->
+<section class="faq-outer" id="faq-section" aria-label="Frequently asked questions">
+  <div class="landing-inner">
+    <div class="faq-section">
+      <h3>Frequently asked questions</h3>
+      <div class="faq-grid">
+        <div class="faq-item"><div class="faq-q">Is NutriPlan free to use?</div><div class="faq-a">Yes — completely free. No sign-up, no credit card, no subscription. Just open the app and generate your plan.</div></div>
+        <div class="faq-item"><div class="faq-q">What Nigerian cuisines are supported?</div><div class="faq-a">Yoruba, Igbo, Hausa, Delta/Rivers, and a mixed All-Nigerian option. Each generates dishes authentic to that food culture.</div></div>
+        <div class="faq-item"><div class="faq-q">How accurate are the Naira budget estimates?</div><div class="faq-a">Budget estimates are calibrated to 2026 Nigerian market prices using NBS data. They reflect realistic costs for home cooking across different income levels.</div></div>
+        <div class="faq-item"><div class="faq-q">Can I use this for weight loss?</div><div class="faq-a">Yes. Select "Weight loss" as your health goal and the AI generates calorie-deficit Nigerian meals — without sacrificing the foods you love.</div></div>
+        <div class="faq-item"><div class="faq-q">What if I don't like the generated plan?</div><div class="faq-a">Hit the Regenerate button — a completely new AI-generated plan is created instantly with the same preferences.</div></div>
+        <div class="faq-item"><div class="faq-q">Is my data stored?</div><div class="faq-a">No. NutriPlan stores nothing. Your preferences are used only to generate your plan and are never saved or tracked.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <strong>NutriPlan</strong> · Made for Nigerians · AI-powered by Claude · No data stored · © 2026
 </footer>
 
 <script>
-  const state = {
+  /* ── STORAGE KEY ── */
+  const STORAGE_KEY = 'nutriplan_state';
+
+  /* ── DEFAULT STATE ── */
+  const defaultState = {
     diet: null, goal: null,
     meals: null, cuisines: [],
-    budget: 20000
+    budget: 20000,
+    currentStep: 1
   };
+
+  /* ── LOAD saved state or use defaults ── */
+  function loadState() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) return { ...defaultState, ...JSON.parse(saved) };
+    } catch(e) {}
+    return { ...defaultState };
+  }
+
+  /* ── SAVE state to localStorage ── */
+  function saveState() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+  }
+
+  const state = loadState();
 
   const DAYS  = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
   const SHORT = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 
+  /* ── PREFERENCE SELECTION ── */
   function pick(el, group) {
     el.closest('.opt-grid, .meals-grid')
       .querySelectorAll('.opt-btn, .meal-opt')
       .forEach(b => b.classList.remove('selected'));
     el.classList.add('selected');
     state[group] = el.dataset.val;
+    saveState();
   }
 
   function toggleCuisine(el) {
@@ -520,6 +498,7 @@
     state.cuisines = el.classList.contains('selected')
       ? [...state.cuisines, v]
       : state.cuisines.filter(x => x !== v);
+    saveState();
   }
 
   function updateBudget(val) {
@@ -527,8 +506,15 @@
     document.getElementById('budget-display').textContent = '₦' + parseInt(val).toLocaleString();
     const pct = ((val - 10000) / 140000 * 100).toFixed(1);
     document.getElementById('budget-slider').style.setProperty('--val', pct + '%');
+    saveState();
   }
 
+  /* ── SCROLL TO APP ── */
+  function scrollToApp() {
+    document.getElementById('app-anchor').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  /* ── NAVIGATION ── */
   function goStep(n) {
     if (n === 2 && (!state.diet || !state.goal)) {
       alert('Please select a dietary preference and a health goal.');
@@ -549,7 +535,25 @@
   function showPanel(n) {
     document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
     document.getElementById('panel' + n).classList.add('active');
+
+    /* Hide hero, landing, FAQ once user moves past Step 1 */
+    const hero    = document.getElementById('hero-section');
+    const landing = document.getElementById('landing-section');
+    const faq     = document.getElementById('faq-section');
+    if (n > 1) {
+      if (hero)    hero.classList.add('np-hidden');
+      if (landing) landing.classList.add('np-hidden');
+      if (faq)     faq.classList.add('np-hidden');
+    } else {
+      if (hero)    hero.classList.remove('np-hidden');
+      if (landing) landing.classList.remove('np-hidden');
+      if (faq)     faq.classList.remove('np-hidden');
+    }
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    /* Persist step */
+    if (n === 1 || n === 2) { state.currentStep = n; saveState(); }
   }
 
   function setProgress(n) {
@@ -566,6 +570,44 @@
     });
   }
 
+  /* ── RESTORE UI on page load ── */
+  function restoreUI() {
+    /* Restore diet */
+    if (state.diet) {
+      const btn = document.querySelector(`#diet-grid [data-val="${state.diet}"]`);
+      if (btn) btn.classList.add('selected');
+    }
+    /* Restore goal */
+    if (state.goal) {
+      const btn = document.querySelector(`#goal-grid [data-val="${state.goal}"]`);
+      if (btn) btn.classList.add('selected');
+    }
+    /* Restore cuisines */
+    if (state.cuisines && state.cuisines.length) {
+      state.cuisines.forEach(c => {
+        const btn = document.querySelector(`#cuisine-grid [data-val="${c}"]`);
+        if (btn) btn.classList.add('selected');
+      });
+    }
+    /* Restore meals */
+    if (state.meals) {
+      const btn = document.querySelector(`#meals-grid [data-val="${state.meals}"]`);
+      if (btn) btn.classList.add('selected');
+    }
+    /* Restore budget */
+    const slider = document.getElementById('budget-slider');
+    slider.value = state.budget;
+    updateBudget(state.budget);
+
+    /* Restore step — only 1 or 2 (never restore loading/results) */
+    const safeStep = (state.currentStep === 2) ? 2 : 1;
+    if (safeStep === 2) {
+      setProgress(2);
+      showPanel(2);
+    }
+  }
+
+  /* ── LOADING ANIMATION ── */
   function runLoadingAnimation() {
     const ids = ['ls1','ls2','ls3','ls4'];
     ids.forEach(id => {
@@ -586,6 +628,7 @@
     return iv;
   }
 
+  /* ── API CALL ── */
   async function callAPI() {
     const body = {
       diet:     state.diet,
@@ -594,25 +637,15 @@
       cuisines: state.cuisines.length ? state.cuisines : ['national'],
       meals:    parseInt(state.meals)
     };
-
     try {
-      const res = await fetch('/api/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
+      const res  = await fetch('/api/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
       const data = await res.json();
-      if (data.success && data.plan) {
-        renderPlan(data.plan, false);
-      } else {
-        renderFallback();
-      }
-    } catch (err) {
-      console.error('API error:', err);
-      renderFallback();
-    }
+      if (data.success && data.plan) { renderPlan(data.plan, false); }
+      else { renderFallback(); }
+    } catch (err) { console.error('API error:', err); renderFallback(); }
   }
 
+  /* ── RENDER PLAN ── */
   function renderPlan(plan, isFallback) {
     const mealCount = parseInt(state.meals);
     const mealTypes = [];
@@ -628,11 +661,9 @@
 
     const tt = document.getElementById('timetable');
     tt.innerHTML = '';
-
     const headRow = document.createElement('div');
     headRow.className = 'tt-head-row';
-    headRow.innerHTML = '<div class="tt-head"></div>' +
-      SHORT.map(d => `<div class="tt-head">${d}</div>`).join('');
+    headRow.innerHTML = '<div class="tt-head"></div>' + SHORT.map(d => `<div class="tt-head">${d}</div>`).join('');
     tt.appendChild(headRow);
 
     mealTypes.forEach(mt => {
@@ -642,18 +673,15 @@
       label.className = 'tt-row-label';
       label.textContent = mt.charAt(0).toUpperCase() + mt.slice(1);
       row.appendChild(label);
-
       DAYS.forEach(day => {
         const cell = document.createElement('div');
         cell.className = 'tt-cell';
-        const text = plan.days?.[day]?.[mt] || '—';
         const pill = document.createElement('div');
         pill.className = `meal-pill ${mt}`;
-        pill.textContent = text;
+        pill.textContent = plan.days?.[day]?.[mt] || '—';
         cell.appendChild(pill);
         row.appendChild(cell);
       });
-
       tt.appendChild(row);
     });
 
@@ -664,63 +692,46 @@
     showPanel(4);
   }
 
+  /* ── FALLBACK PLAN ── */
   function renderFallback() {
     renderPlan({
       days: {
-        Monday:    { breakfast: 'Akara & ogi (pap)',          lunch: 'Jollof rice & fried chicken',   dinner: 'Egusi soup & pounded yam',    snack: 'Chin chin & zobo' },
-        Tuesday:   { breakfast: 'Moi moi & agege bread',      lunch: 'Ofada rice & ayamase stew',     dinner: 'Efo riro & eba',              snack: 'Roasted plantain & groundnuts' },
-        Wednesday: { breakfast: 'Yam & egg sauce',            lunch: 'Fried rice & peppered chicken', dinner: 'Ofe onugbu & fufu',           snack: 'Puff puff' },
-        Thursday:  { breakfast: 'Akara & pap',                lunch: 'Amala & ewedu with gbegiri',    dinner: 'Banga soup & starch',         snack: 'Kuli kuli' },
-        Friday:    { breakfast: 'Bread & fried eggs',         lunch: 'Tuwo shinkafa & miyan kuka',    dinner: 'Ogbono soup & pounded yam',   snack: 'Roasted corn & ube' },
-        Saturday:  { breakfast: 'Plantain & scrambled eggs',  lunch: 'Pepper soup & agidi',           dinner: 'Afang soup & eba',            snack: 'Suya & onions' },
-        Sunday:    { breakfast: 'Ogi & moi moi',              lunch: 'Native jollof & assorted meat', dinner: 'Oha soup & fufu',             snack: 'Groundnut & tiger nut' }
+        Monday:    { breakfast: 'Akara & ogi (pap)',         lunch: 'Jollof rice & fried chicken',   dinner: 'Egusi soup & pounded yam',    snack: 'Chin chin & zobo' },
+        Tuesday:   { breakfast: 'Moi moi & agege bread',     lunch: 'Ofada rice & ayamase stew',     dinner: 'Efo riro & eba',              snack: 'Roasted plantain & groundnuts' },
+        Wednesday: { breakfast: 'Yam & egg sauce',           lunch: 'Fried rice & peppered chicken', dinner: 'Ofe onugbu & fufu',           snack: 'Puff puff' },
+        Thursday:  { breakfast: 'Akara & pap',               lunch: 'Amala & ewedu with gbegiri',    dinner: 'Banga soup & starch',         snack: 'Kuli kuli' },
+        Friday:    { breakfast: 'Bread & fried eggs',        lunch: 'Tuwo shinkafa & miyan kuka',    dinner: 'Ogbono soup & pounded yam',   snack: 'Roasted corn & ube' },
+        Saturday:  { breakfast: 'Plantain & scrambled eggs', lunch: 'Pepper soup & agidi',           dinner: 'Afang soup & eba',            snack: 'Suya & onions' },
+        Sunday:    { breakfast: 'Ogi & moi moi',             lunch: 'Native jollof & assorted meat', dinner: 'Oha soup & fufu',             snack: 'Groundnut & tiger nut' }
       },
       estimated_weekly_cost: `₦${Math.round(state.budget * 0.88).toLocaleString()}–₦${state.budget.toLocaleString()}`,
-      avg_calories_per_day:  '1,950 kcal',
+      avg_calories_per_day: '1,950 kcal',
       notes: 'A balanced Nigerian meal plan. Regenerate for a fully AI-personalized version.'
     }, true);
   }
 
-  function regenerate() {
-    setProgress(3);
-    showPanel(3);
-    runLoadingAnimation();
-    callAPI();
-  }
+  function regenerate() { setProgress(3); showPanel(3); runLoadingAnimation(); callAPI(); }
 
+  /* ── SHOPPING LIST ── */
   async function getShoppingList(btn) {
     const timetableText = document.getElementById('timetable').innerText;
     btn.textContent = '⏳ Generating...';
     btn.disabled = true;
-
     try {
-      const res = await fetch('/api/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          diet: state.diet,
-          goal: state.goal,
-          budget: state.budget,
-          cuisines: state.cuisines.length ? state.cuisines : ['national'],
-          meals: parseInt(state.meals),
-          shoppingList: true,
-          timetableContext: timetableText
-        })
-      });
+      const res  = await fetch('/api/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ diet: state.diet, goal: state.goal, budget: state.budget, cuisines: state.cuisines.length ? state.cuisines : ['national'], meals: parseInt(state.meals), shoppingList: true, timetableContext: timetableText }) });
       const data = await res.json();
-      document.getElementById('shopping-content').textContent =
-        data.shoppingList || 'Could not generate a shopping list. Please try again.';
+      document.getElementById('shopping-content').textContent = data.shoppingList || 'Could not generate a shopping list. Please try again.';
     } catch(e) {
       document.getElementById('shopping-content').textContent = 'Could not generate shopping list. Please try again.';
     }
-
     document.getElementById('shopping-card').style.display = 'block';
     document.getElementById('shopping-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
     btn.textContent = '🛒 Get shopping list';
     btn.disabled = false;
   }
 
-  updateBudget(20000);
+  /* ── INIT ── */
+  restoreUI();
 </script>
 </body>
 </html>

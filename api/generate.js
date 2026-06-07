@@ -1,26 +1,100 @@
 // api/generate.js
 // Vercel Serverless Function — Claude API Proxy
-// This file runs on the SERVER. The API key never reaches the browser.
+// API key never reaches the browser. All inputs sanitized server-side.
+
+// ── 2026 NIGERIAN MARKET PRICE REFERENCE ──────────────────────────────────
+// Sources: NBS Food Price Watch, NigerianQueries April 2026, McEbisco Market Data
+// Prices are Lagos/South averages. Northern markets may be 10–20% cheaper.
+// Updated: June 2026. Review monthly for accuracy.
+const NIGERIAN_MARKET_PRICES = `
+CURRENT NIGERIAN MARKET PRICES (June 2026 — Lagos/South average):
+
+GRAINS & STAPLES:
+- Rice (local, 1kg loose): ₦1,300–₦1,500
+- Rice (foreign/parboiled, 1kg): ₦1,600–₦1,900
+- Garri (white, 1kg): ₦800–₦1,200
+- Garri (yellow, 1kg): ₦900–₦1,300
+- Semovita (1kg): ₦1,200–₦1,500
+- Wheat flour (1kg): ₦1,500–₦1,800
+- Maize (1kg): ₦600–₦800
+- Millet (1kg): ₦700–₦900
+
+PROTEINS:
+- Beans/Brown beans (1kg): ₦1,500–₦2,000
+- Chicken (whole, per kg): ₦3,500–₦4,500
+- Beef (1kg): ₦4,000–₦6,000
+- Goat meat (1kg): ₦5,000–₦7,000
+- Fresh fish (catfish, 1kg): ₦2,500–₦3,500
+- Dried fish (medium piece): ₦800–₦1,500
+- Stockfish (medium piece): ₦1,500–₦3,000
+- Eggs (1 crate/30): ₦4,500–₦5,500
+- Egg (single): ₦150–₦200
+- Egusi/Melon seeds (1kg): ₦3,000–₦4,500
+- Groundnuts (1kg): ₦1,200–₦1,800
+
+TUBERS & SWALLOWS:
+- Yam (1 medium tuber): ₦2,000–₦4,000
+- Yam (1kg): ₦600–₦900
+- Plantain (bunch): ₦2,000–₦3,500
+- Plantain (single finger): ₦200–₦400
+- Sweet potato (1kg): ₦600–₦900
+- Cocoyam (1kg): ₦800–₦1,200
+- Cassava (1kg): ₦300–₦500
+
+VEGETABLES & PRODUCE:
+- Tomatoes (1kg retail): ₦1,500–₦2,500
+- Tomatoes (small basket): ₦4,000–₦6,000
+- Pepper (tatashe/bell, 1kg): ₦1,500–₦2,500
+- Scotch bonnet (atarodo, 100g): ₦500–₦800
+- Onions (1kg): ₦1,200–₦1,800
+- Spinach/Efo (bunch): ₦300–₦600
+- Ugu/Fluted pumpkin (bunch): ₦400–₦700
+- Bitter leaf (bunch): ₦300–₦500
+- Waterleaf (bunch): ₦300–₦500
+
+OILS & CONDIMENTS:
+- Palm oil (1 litre): ₦1,500–₦2,000
+- Vegetable oil (1 litre): ₦1,800–₦2,500
+- Vegetable oil (5 litres): ₦9,000–₦12,000
+- Groundnut oil (1 litre): ₦2,000–₦2,800
+- Seasoning cubes (Maggi/Knorr, 1 pack): ₦300–₦500
+- Salt (1 sachet): ₦50–₦100
+- Crayfish (100g): ₦800–₦1,500
+
+DAIRY & BEVERAGES:
+- Milk (Peak, 1 tin): ₦1,200–₦1,600
+- Milo/Ovaltine (500g): ₦2,500–₦3,200
+- Oat (Golden Morn, 500g): ₦1,500–₦2,000
+- Bread (standard loaf): ₦800–₦1,200
+
+FRUITS:
+- Orange (3 pieces): ₦300–₦500
+- Banana (bunch): ₦1,000–₦1,800
+- Pawpaw (medium): ₦500–₦1,000
+- Watermelon (medium): ₦2,000–₦4,000
+
+NOTE: Prices vary by location (Lagos is 10–20% higher than Northern markets),
+season, and whether buying at open market vs supermarket.
+Bulk purchases reduce cost by 15–30%.
+`;
 
 export default async function handler(req, res) {
 
-  // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // CORS — only allow requests from your own domain
   res.setHeader('Access-Control-Allow-Origin', process.env.ALLOWED_ORIGIN || '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  // Destructure and validate user preferences from request body
   const { diet, goal, budget, cuisines, meals, shoppingList, timetableContext } = req.body;
 
-  // ── SHOPPING LIST MODE ──
+  // ── SHOPPING LIST MODE ──────────────────────────────────────────────────
   if (shoppingList && timetableContext) {
     const safeContext = String(timetableContext).slice(0, 2000);
     const safeBudgetSL = Math.min(Math.max(parseInt(budget) || 20000, 10000), 150000);
+
     try {
       const response = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
@@ -31,41 +105,84 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
           model: 'claude-sonnet-4-5',
-          max_tokens: 800,
+          max_tokens: 1200,
           messages: [{
             role: 'user',
-            content: `Based on this 7-day meal plan:\n\n${safeContext}\n\nGenerate a concise weekly shopping list organized by category:\n- Produce\n- Proteins\n- Grains & Carbs\n- Dairy & Eggs\n- Pantry & Spices\n\nBudget target: ₦${safeBudgetSL.toLocaleString()}/week (Nigerian Naira). List Nigerian market ingredients. Keep it practical, no duplicates.`
+            content: `You are a Nigerian market shopping expert based in Lagos.
+
+Generate a weekly shopping list for this 7-day Nigerian meal plan:
+
+${safeContext}
+
+USER'S WEEKLY BUDGET: ₦${safeBudgetSL.toLocaleString()}
+
+Use ONLY these verified current market prices when estimating costs:
+
+${NIGERIAN_MARKET_PRICES}
+
+Format the shopping list exactly like this:
+
+📦 GRAINS & STAPLES
+• [Item] — [quantity needed] — ₦[realistic price range]
+
+🥩 PROTEINS
+• [Item] — [quantity needed] — ₦[realistic price range]
+
+🥬 VEGETABLES & PRODUCE
+• [Item] — [quantity needed] — ₦[realistic price range]
+
+🫙 OILS & CONDIMENTS
+• [Item] — [quantity needed] — ₦[realistic price range]
+
+🧺 OTHER ITEMS
+• [Item] — [quantity needed] — ₦[realistic price range]
+
+💰 ESTIMATED WEEKLY TOTAL: ₦[sum of all items]
+💡 BUDGET TIP: [one practical tip for buying these items cheaper in Nigerian markets]
+
+Rules:
+- Use ONLY the price reference above — do not invent prices
+- List realistic quantities for one person for one week
+- All prices in Naira (₦) only — no dollars
+- Keep the list practical for Nigerian open markets
+- If budget is tight, suggest smaller quantities or cheaper alternatives`
           }]
         })
       });
+
       const data = await response.json();
       const list = data.content.map(b => b.text || '').join('');
+
       return res.status(200).json({ success: true, shoppingList: list });
-    } catch(e) {
-      return res.status(200).json({ success: false, shoppingList: 'Could not generate shopping list.' });
+
+    } catch (e) {
+      console.error('Shopping list error:', e.message);
+      return res.status(200).json({
+        success: false,
+        shoppingList: 'Could not generate shopping list. Please try again.'
+      });
     }
   }
 
+  // ── MEAL PLAN MODE ──────────────────────────────────────────────────────
   if (!diet || !goal || !budget || !meals) {
     return res.status(400).json({ error: 'Missing required preferences' });
   }
 
-  // Input sanitization — prevent prompt injection
-  const safeDiet    = String(diet).slice(0, 50).replace(/[^a-zA-Z_\s]/g, '');
-  const safeGoal    = String(goal).slice(0, 50).replace(/[^a-zA-Z_\s]/g, '');
-  const safeBudget  = Math.min(Math.max(parseInt(budget) || 20000, 10000), 150000);
-  const safeMeals   = Math.min(Math.max(parseInt(meals) || 3, 2), 4);
+  const safeDiet     = String(diet).slice(0, 50).replace(/[^a-zA-Z_\s]/g, '');
+  const safeGoal     = String(goal).slice(0, 50).replace(/[^a-zA-Z_\s]/g, '');
+  const safeBudget   = Math.min(Math.max(parseInt(budget) || 20000, 10000), 150000);
+  const safeMeals    = Math.min(Math.max(parseInt(meals) || 3, 2), 4);
   const safeCuisines = Array.isArray(cuisines)
     ? cuisines.map(c => String(c).slice(0, 30).replace(/[^a-zA-Z_\s]/g, '')).slice(0, 6)
-    : ['any'];
+    : ['national'];
 
   const mealTypes = [];
   if (safeMeals >= 3) mealTypes.push('breakfast');
   mealTypes.push('lunch', 'dinner');
   if (safeMeals === 4) mealTypes.push('snack');
 
-  // Construct the prompt
-  const prompt = `You are a professional Nigerian nutritionist and meal planner based in Nigeria.
+  const prompt = `You are a professional Nigerian nutritionist and meal planner based in Lagos.
 Generate a personalized 7-day meal timetable (Monday–Sunday) for a Nigerian user.
 
 User profile:
@@ -75,9 +192,8 @@ User profile:
 - Weekly budget: ₦${safeBudget.toLocaleString()} (Nigerian Naira)
 - Cuisine preferences: ${safeCuisines.join(', ')}
 
-Return ONLY valid JSON — no markdown fences, no explanation, no preamble.
+Return ONLY valid JSON — no markdown, no explanation, no preamble.
 
-Required JSON structure:
 {
   "days": {
     "Monday":    { "breakfast": "...", "lunch": "...", "dinner": "...", "snack": "..." },
@@ -95,20 +211,20 @@ Required JSON structure:
 
 Rules:
 - Only include meal keys for: ${mealTypes.join(', ')}
-- Meal names: 3–6 words max, use Nigerian dish names (e.g. Jollof Rice, Egusi Soup, Pounded Yam, Suya, Akara, Moi Moi, Ofada Rice, Banga Soup, Afang Soup, Tuwo Shinkafa, Miyan Kuka, Ogbono Soup, Efo Riro, Eba, Amala)
-- Breakfast options: Akara & pap, Moi Moi & bread, Ogi & akara, Scrambled eggs & agege bread, Yam & egg sauce
-- Snack options: Chin chin, Puff puff, Roasted plantain, Groundnuts, Kuli kuli, Zobo drink
+- Meal names: 3–6 words max
+- Use Nigerian dish names: Jollof Rice, Egusi Soup, Pounded Yam, Amala, Ewedu, Gbegiri, Ofada Rice, Banga Soup, Efo Riro, Ofe Onugbu, Oha Soup, Afang Soup, Tuwo Shinkafa, Miyan Kuka, Ogbono Soup, Suya, Akara, Moi Moi, Eba, Fufu
+- Breakfast: Akara & pap, Moi moi & bread, Yam & egg sauce, Ogi & akara, Plantain & eggs, Bread & Akara
+- Snacks: Chin chin, Puff puff, Roasted plantain, Groundnuts, Suya, Kuli kuli, Zobo, Roasted corn
 - No dish repeated more than twice across the week
-- Cuisine breakdown by preference: Yoruba=Amala/Ewedu/Gbegiri/Efo Riro, Igbo=Ofe Onugbu/Jikokor/Oha Soup, Hausa=Tuwo/Miyan Kuka/Suya/Kilishi, Delta=Banga Soup/Starch/Fisherman Soup
-- Budget estimate MUST be in Nigerian Naira (₦) and realistic for Nigerian markets
-- Budget must be within ±15% of ₦${safeBudget.toLocaleString()}/week`;
+- Cuisine breakdown: Yoruba=Amala/Ewedu/Gbegiri/Efo Riro, Igbo=Ofe Onugbu/Oha Soup, Hausa=Tuwo/Miyan Kuka/Suya, Delta=Banga Soup/Starch/Fisherman Soup
+- Budget estimate MUST be in Naira (₦) and within ±15% of ₦${safeBudget.toLocaleString()}/week`;
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY,  // ← Secure: server-side only
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
@@ -121,7 +237,7 @@ Rules:
     if (!response.ok) {
       const err = await response.json();
       console.error('Anthropic API error:', err);
-      return res.status(502).json({ error: 'AI service unavailable', fallback: true });
+      return res.status(200).json({ success: false, fallback: true });
     }
 
     const data = await response.json();
@@ -133,24 +249,21 @@ Rules:
 
     const plan = JSON.parse(raw);
 
-    // Validate the response has the expected shape
     if (!plan.days || !plan.days.Monday) {
       throw new Error('Invalid plan structure from AI');
     }
 
-    // Force Naira — replace any dollar signs Claude may have used
+    // Force Naira — strip any dollar signs Claude may have used
     if (plan.estimated_weekly_cost) {
       plan.estimated_weekly_cost = plan.estimated_weekly_cost
         .replace(/\$/g, '₦')
-        .replace(/USD/g, '₦')
-        .replace(/usd/g, '₦');
+        .replace(/USD/gi, '₦');
     }
 
     return res.status(200).json({ success: true, plan });
 
   } catch (error) {
     console.error('Generate error:', error.message);
-    // Return fallback signal — frontend handles the fallback plan
     return res.status(200).json({ success: false, fallback: true, error: error.message });
   }
 }

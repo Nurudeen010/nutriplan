@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="NutriPlan — AI-powered weekly meal planner for Nigerians. Plan your jollof rice, egusi soup, and more within your Naira budget." />
+  <title>NutriPlan — Nigerian AI Meal Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --forest:      #1C3A2A;
+      --forest-l:    #2A5A3E;
+      --sage:        #5C8A6A;
+      --sage-l:      #C8E0D0;
+      --gold:        #C4972A;
+      --gold-l:      #F5E9C8;
+      --cream:       #FAF7F2;
+      --warm:        #FFFDF9;
+      --text:        #1A2A1E;
+      --text-mid:    #4A5E50;
+      --text-light:  #7A8E80;
+      --border:      #D8E4DC;
+      --shadow:      rgba(28,58,42,0.08);
+      --red:         #E24B4A;
+      --orange:      #EF9F27;
+      --teal-c:      #1D9E75;
+      --radius-sm:   8px;
+      --radius-md:   12px;
+      --radius-lg:   18px;
+      --radius-xl:   24px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--forest);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+    }
+    .logo { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 700; color: #fff; letter-spacing: -0.02em; }
+    .logo span { color: var(--gold); }
+    .header-pill {
+      background: rgba(196,151,42,0.2);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, var(--forest) 0%, #0D2218 100%);
+      padding: 4rem 2rem 3.5rem;
+      text-align: center;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      background: rgba(196,151,42,0.15);
+      border: 1px solid rgba(196,151,42,0.4);
+      color: var(--gold);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 1.25rem;
+    }
+    .hero h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero p { color: rgba(255,255,255,0.65); font-size: 1.05rem; max-width: 520px; margin: 0 auto 2rem; }
+    .hero-stats { display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; }
+    .hs-num { font-family: 'Fraunces', serif; font-size: 1.8rem; font-weight: 700; color: var(--gold); display: block; }
+    .hs-lbl { font-size: 0.7rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* LAYOUT */
+    .app-wrap { max-width: 760px; margin: 0 auto; padding: 0 1.5rem 5rem; }
+
+    /* PROGRESS */
+    .progress-wrap { padding: 2rem 0 1.5rem; }
+    .steps-row { display: flex; align-items: center; }
+    .step-item { display: flex; align-items: center; flex: 1; }
+    .step-item:last-child { flex: 0; }
+    .step-dot {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: var(--warm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 600;
+      color: var(--text-light);
+      flex-shrink: 0;
+      transition: all 0.25s;
+      position: relative; z-index: 1;
+    }
+    .step-dot.active { border-color: var(--forest); background: var(--forest); color: #fff; }
+    .step-dot.done   { border-color: var(--sage);   background: var(--sage);   color: #fff; }
+    .step-line { flex: 1; height: 2px; background: var(--border); transition: background 0.25s; }
+    .step-line.done { background: var(--sage); }
+    .step-labels { display: flex; justify-content: space-between; margin-top: 8px; }
+    .step-labels span { font-size: 0.7rem; color: var(--text-light); text-align: center; flex: 1; }
+    .step-labels span:last-child { flex: 0; text-align: right; }
+
+    /* PANELS */
+    .step-panel { display: none; }
+    .step-panel.active { display: block; animation: fadeUp 0.3s ease; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* CARDS */
+    .card {
+      background: var(--warm);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 1.75rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 4px 24px var(--shadow);
+    }
+    .section-title { font-family: 'Fraunces', serif; font-size: 1.25rem; font-weight: 600; color: var(--forest); margin-bottom: 0.3rem; letter-spacing: -0.01em; }
+    .section-sub { font-size: 0.85rem; color: var(--text-light); margin-bottom: 1.25rem; }
+    .divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
+
+    /* OPTION GRIDS */
+    .opt-grid { display: grid; gap: 10px; margin-bottom: 0.5rem; }
+    .g3 { grid-template-columns: repeat(3, 1fr); }
+    .g2 { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 520px) { .g3 { grid-template-columns: repeat(2, 1fr); } }
+
+    .opt-btn {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0.875rem 0.75rem;
+      background: var(--cream);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.18s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .opt-btn:hover { border-color: var(--sage); background: #fff; transform: translateY(-1px); box-shadow: 0 4px 12px var(--shadow); }
+    .opt-btn.selected { border-color: var(--forest); background: var(--forest); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(28,58,42,0.2); }
+    .opt-emoji { font-size: 1.5rem; display: block; margin-bottom: 6px; }
+    .opt-label { font-size: 0.875rem; font-weight: 600; color: var(--text); display: block; }
+    .opt-desc  { font-size: 0.75rem; color: var(--text-light); display: block; margin-top: 2px; }
+    .opt-btn.selected .opt-label, .opt-btn.selected .opt-desc { color: rgba(255,255,255,0.9); }
+
+    /* CUISINE */
+    .cuisine-btn {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0.75rem;
+      background: var(--cream);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.18s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .cuisine-btn:hover { border-color: var(--sage); background: #fff; }
+    .cuisine-btn.selected { border-color: var(--sage); background: rgba(92,138,106,0.12); }
+    .cuisine-btn .ce { font-size: 1.4rem; display: block; margin-bottom: 4px; }
+    .cuisine-btn .cl { font-size: 0.8rem; font-weight: 600; color: var(--text); }
+    .cuisine-btn.selected .cl { color: var(--forest); }
+
+    /* MEALS */
+    .meals-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+    .meal-opt {
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      background: var(--cream);
+      transition: all 0.18s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .meal-opt:hover { border-color: var(--sage); background: #fff; }
+    .meal-opt.selected { border-color: var(--forest); background: var(--forest); }
+    .meal-opt .mn { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 700; color: var(--forest); display: block; line-height: 1; }
+    .meal-opt .ml { font-size: 0.72rem; color: var(--text-light); margin-top: 4px; display: block; }
+    .meal-opt.selected .mn, .meal-opt.selected .ml { color: rgba(255,255,255,0.9); }
+
+    /* BUDGET SLIDER */
+    .budget-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.75rem; }
+    .budget-num { font-family: 'Fraunces', serif; font-size: 2.4rem; font-weight: 700; color: var(--forest); line-height: 1; }
+    .budget-period { font-size: 0.8rem; color: var(--text-light); }
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%; height: 6px;
+      background: linear-gradient(to right, var(--forest) 0%, var(--forest) var(--val, 11%), var(--border) var(--val, 11%));
+      border-radius: 3px; outline: none; border: none; cursor: pointer;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--forest);
+      border: 3px solid #fff;
+      box-shadow: 0 2px 8px rgba(28,58,42,0.3);
+      cursor: pointer;
+    }
+    .range-labels { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-light); margin-top: 6px; }
+
+    /* BUTTONS */
+    .btn-row { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; gap: 12px; }
+    .btn-primary {
+      background: var(--forest); color: #fff; border: none;
+      border-radius: var(--radius-md); padding: 0.875rem 2rem;
+      font-family: 'DM Sans', sans-serif; font-size: 0.925rem; font-weight: 600;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 7px; transition: all 0.18s;
+    }
+    .btn-primary:hover { background: var(--forest-l); box-shadow: 0 4px 16px rgba(28,58,42,0.25); }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-secondary {
+      background: transparent; border: 1.5px solid var(--border);
+      border-radius: var(--radius-md); padding: 0.875rem 1.5rem;
+      font-family: 'DM Sans', sans-serif; font-size: 0.925rem; font-weight: 500;
+      color: var(--text-mid); cursor: pointer; transition: all 0.18s;
+    }
+    .btn-secondary:hover { border-color: var(--forest); color: var(--forest); background: rgba(28,58,42,0.04); }
+    .btn-ghost {
+      background: none; border: none; font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem; color: var(--text-light); cursor: pointer;
+      padding: 0.5rem; display: inline-flex; align-items: center; gap: 5px;
+    }
+    .btn-ghost:hover { color: var(--forest); }
+
+    /* LOADING */
+    .loading-wrap { text-align: center; padding: 3.5rem 1rem; }
+    .spinner {
+      width: 48px; height: 48px;
+      border: 3px solid var(--border);
+      border-top-color: var(--forest);
+      border-radius: 50%;
+      animation: spin 0.85s linear infinite;
+      margin: 0 auto 1.5rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-title { font-family: 'Fraunces', serif; font-size: 1.35rem; color: var(--forest); margin-bottom: 0.5rem; }
+    .loading-steps { max-width: 280px; margin: 1.5rem auto 0; display: flex; flex-direction: column; gap: 8px; }
+    .lstep { display: flex; align-items: center; gap: 10px; font-size: 0.82rem; color: var(--text-light); opacity: 0.35; transition: opacity 0.3s; }
+    .lstep.on { opacity: 1; color: var(--forest); }
+    .lstep.done { opacity: 0.6; }
+    .ldot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); flex-shrink: 0; }
+    .lstep.on .ldot { background: var(--gold); animation: pulse 1s ease infinite; }
+    .lstep.done .ldot { background: var(--sage); animation: none; }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.5)} }
+
+    /* RESULTS */
+    .result-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 10px; }
+    .result-title { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 700; color: var(--forest); letter-spacing: -0.02em; }
+    .result-note { font-size: 0.82rem; color: var(--text-light); margin-top: 4px; }
+    .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.25rem; }
+    @media(max-width:480px) { .summary-grid { grid-template-columns: repeat(2,1fr); } }
+    .sum-card { background: var(--cream); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 0.875rem 1rem; }
+    .sum-label { font-size: 0.7rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .sum-val { font-family: 'Fraunces', serif; font-size: 1.35rem; font-weight: 700; color: var(--forest); line-height: 1.2; }
+
+    /* TIMETABLE */
+    .tt-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 1.25rem; }
+    .tt { min-width: 580px; }
+    .tt-head-row { display: grid; grid-template-columns: 76px repeat(7, 1fr); background: var(--forest); }
+    .tt-head { padding: 9px 5px; font-size: 0.68rem; font-weight: 600; color: rgba(255,255,255,0.75); text-align: center; text-transform: uppercase; letter-spacing: 0.04em; }
+    .tt-row { display: grid; grid-template-columns: 76px repeat(7, 1fr); border-top: 1px solid var(--border); }
+    .tt-row-label { padding: 8px 7px; font-size: 0.67rem; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.05em; background: var(--cream); border-right: 1px solid var(--border); display: flex; align-items: center; }
+    .tt-cell { padding: 6px 5px; background: var(--warm); border-right: 1px solid var(--border); display: flex; align-items: flex-start; }
+    .tt-cell:last-child { border-right: none; }
+    .meal-pill { font-size: 0.68rem; font-weight: 500; line-height: 1.35; padding: 3px 6px; border-radius: 5px; width: 100%; }
+    .meal-pill.breakfast { background: #FFF3CD; color: #7A5A10; }
+    .meal-pill.lunch     { background: #DCF0DC; color: #1A4A1A; }
+    .meal-pill.dinner    { background: #C8E8E9; color: #1A4A4C; }
+    .meal-pill.snack     { background: #E8D0EA; color: #4A1A4C; }
+
+    /* LEGEND */
+    .legend { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 1.25rem; }
+    .legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.78rem; color: var(--text-mid); }
+    .ldot-sq { width: 10px; height: 10px; border-radius: 3px; }
+
+    /* TOAST */
+    .toast { background: #FEF3F2; border: 1px solid #FECACA; border-radius: var(--radius-md); padding: 0.75rem 1rem; font-size: 0.85rem; color: #7F1D1D; margin-bottom: 1rem; display: none; }
+
+    /* FOOTER */
+    footer { background: var(--forest); color: rgba(255,255,255,0.45); text-align: center; padding: 1.5rem; font-size: 0.78rem; margin-top: 4rem; }
+    footer strong { color: rgba(255,255,255,0.85); font-family: 'Fraunces', serif; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Nutri<span>Plan</span></div>
+  <div class="header-pill">🇳🇬 Made for Nigerians</div>
+</header>
+
+<section class="hero" aria-label="NutriPlan hero">
+  <div class="hero-eyebrow">✦ AI Powered · Free to use</div>
+  <h1>Your naija food, your budget,<br><em>your week.</em></h1>
+  <p>From jollof rice to egusi soup — get a full 7-day Nigerian meal plan tailored to your diet, health goal, and Naira budget. Ready in under 2 minutes.</p>
+  <div class="hero-stats">
+    <div><span class="hs-num">7</span><span class="hs-lbl">Days planned</span></div>
+    <div><span class="hs-num">₦10k–₦150k</span><span class="hs-lbl">Budget range</span></div>
+    <div><span class="hs-num">4</span><span class="hs-lbl">Nigerian regions</span></div>
+  </div>
+</section>
+
+<main class="app-wrap">
+
+  <!-- PROGRESS -->
+  <div class="progress-wrap" aria-label="Steps progress">
+    <div class="steps-row">
+      <div class="step-item">
+        <div class="step-dot active" id="dot1" aria-label="Step 1">1</div>
+        <div class="step-line" id="line1"></div>
+      </div>
+      <div class="step-item">
+        <div class="step-dot" id="dot2" aria-label="Step 2">2</div>
+        <div class="step-line" id="line2"></div>
+      </div>
+      <div class="step-item" style="flex:0">
+        <div class="step-dot" id="dot3" aria-label="Step 3">3</div>
+      </div>
+    </div>
+    <div class="step-labels">
+      <span>Diet & Goals</span>
+      <span>Budget & Cuisine</span>
+      <span>Your Plan</span>
+    </div>
+  </div>
+
+  <!-- STEP 1: DIET & GOALS -->
+  <div class="step-panel active" id="panel1">
+    <div class="card">
+      <div class="section-title">Dietary preference</div>
+      <div class="section-sub">Choose the eating style that fits your lifestyle</div>
+      <div class="opt-grid g3" id="diet-grid">
+        <button class="opt-btn" data-val="balanced"      onclick="pick(this,'diet')"><span class="opt-emoji">🥗</span><span class="opt-label">Balanced</span><span class="opt-desc">Mix of everything</span></button>
+        <button class="opt-btn" data-val="vegan"         onclick="pick(this,'diet')"><span class="opt-emoji">🌱</span><span class="opt-label">Vegan</span><span class="opt-desc">Plant-based only</span></button>
+        <button class="opt-btn" data-val="keto"          onclick="pick(this,'diet')"><span class="opt-emoji">🥩</span><span class="opt-label">Keto</span><span class="opt-desc">Low-carb, high-fat</span></button>
+        <button class="opt-btn" data-val="vegetarian"    onclick="pick(this,'diet')"><span class="opt-emoji">🥦</span><span class="opt-label">Vegetarian</span><span class="opt-desc">No meat</span></button>
+        <button class="opt-btn" data-val="high_protein"  onclick="pick(this,'diet')"><span class="opt-emoji">💪</span><span class="opt-label">High Protein</span><span class="opt-desc">Muscle-focused meals</span></button>
+        <button class="opt-btn" data-val="low_carb"      onclick="pick(this,'diet')"><span class="opt-emoji">🫘</span><span class="opt-label">Low Carb</span><span class="opt-desc">Reduce starchy foods</span></button>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section-title">Health goal</div>
+      <div class="section-sub">What are you working towards?</div>
+      <div class="opt-grid g2" id="goal-grid">
+        <button class="opt-btn" data-val="weight_loss"  onclick="pick(this,'goal')"><span class="opt-emoji">📉</span><span class="opt-label">Weight loss</span><span class="opt-desc">Calorie deficit meals</span></button>
+        <button class="opt-btn" data-val="muscle_gain"  onclick="pick(this,'goal')"><span class="opt-emoji">🏋️</span><span class="opt-label">Muscle gain</span><span class="opt-desc">High protein focus</span></button>
+        <button class="opt-btn" data-val="maintenance"  onclick="pick(this,'goal')"><span class="opt-emoji">⚖️</span><span class="opt-label">Maintenance</span><span class="opt-desc">Balanced calories</span></button>
+        <button class="opt-btn" data-val="energy"       onclick="pick(this,'goal')"><span class="opt-emoji">⚡</span><span class="opt-label">More energy</span><span class="opt-desc">Nutrient-dense meals</span></button>
+      </div>
+
+      <div class="btn-row">
+        <span></span>
+        <button class="btn-primary" onclick="goStep(2)">Continue →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: BUDGET & CUISINE -->
+  <div class="step-panel" id="panel2">
+    <div class="card">
+      <div class="section-title">Weekly food budget</div>
+      <div class="section-sub">Set your weekly food budget in Naira — we'll plan within it</div>
+      <div class="budget-head">
+        <span class="budget-num" id="budget-display">₦20,000</span>
+        <span class="budget-period">per week</span>
+      </div>
+      <input type="range" min="10000" max="150000" step="2500" value="20000" id="budget-slider" aria-label="Weekly budget slider" oninput="updateBudget(this.value)">
+      <div class="range-labels"><span>₦10,000</span><span>₦150,000</span></div>
+
+      <div class="divider"></div>
+
+      <div class="section-title">Your Nigerian cuisine</div>
+      <div class="section-sub">Pick your tribe's cuisine — we'll build your plan around it</div>
+      <div class="opt-grid g3" id="cuisine-grid">
+        <button class="cuisine-btn" data-val="yoruba"    onclick="toggleCuisine(this)"><span class="ce">🍲</span><span class="cl">Yoruba</span></button>
+        <button class="cuisine-btn" data-val="igbo"      onclick="toggleCuisine(this)"><span class="ce">🥘</span><span class="cl">Igbo</span></button>
+        <button class="cuisine-btn" data-val="hausa"     onclick="toggleCuisine(this)"><span class="ce">🍖</span><span class="cl">Hausa</span></button>
+        <button class="cuisine-btn" data-val="delta"     onclick="toggleCuisine(this)"><span class="ce">🐟</span><span class="cl">Delta/Rivers</span></button>
+        <button class="cuisine-btn" data-val="national"  onclick="toggleCuisine(this)"><span class="ce">🇳🇬</span><span class="cl">All Nigerian</span></button>
+        <button class="cuisine-btn" data-val="any"       onclick="toggleCuisine(this)"><span class="ce">🌍</span><span class="cl">No preference</span></button>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section-title">Meals per day</div>
+      <div class="section-sub">How many meals would you like planned?</div>
+      <div class="meals-grid" id="meals-grid">
+        <button class="meal-opt" data-val="2" onclick="pick(this,'meals')"><span class="mn">2</span><span class="ml">Lunch & dinner</span></button>
+        <button class="meal-opt" data-val="3" onclick="pick(this,'meals')"><span class="mn">3</span><span class="ml">Breakfast to dinner</span></button>
+        <button class="meal-opt" data-val="4" onclick="pick(this,'meals')"><span class="mn">4</span><span class="ml">3 meals + snack</span></button>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn-secondary" onclick="goStep(1)">← Back</button>
+        <button class="btn-primary" onclick="goStep(3)">✦ Generate my plan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: LOADING -->
+  <div class="step-panel" id="panel3">
+    <div class="card">
+      <div class="loading-wrap" role="status" aria-live="polite">
+        <div class="spinner" aria-hidden="true"></div>
+        <div class="loading-title">Building your meal plan</div>
+        <p style="font-size:0.875rem;color:var(--text-light)">Personalizing just for you...</p>
+        <div class="loading-steps">
+          <div class="lstep on" id="ls1"><div class="ldot"></div>Analysing your preferences</div>
+          <div class="lstep"    id="ls2"><div class="ldot"></div>Selecting Nigerian dishes for you</div>
+          <div class="lstep"    id="ls3"><div class="ldot"></div>Matching your Naira budget</div>
+          <div class="lstep"    id="ls4"><div class="ldot"></div>Finalising your 7-day plan</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: RESULTS -->
+  <div class="step-panel" id="panel4">
+    <div class="card">
+      <div class="toast" id="error-toast" role="alert">
+        ⚠️ We couldn't reach the AI right now — showing you a curated Nigerian backup plan instead.
+      </div>
+
+      <div class="result-header">
+        <div>
+          <div class="result-title">Your weekly meal plan 🇳🇬</div>
+          <div class="result-note" id="plan-note">Personalised for your goals and preferences.</div>
+        </div>
+        <button class="btn-secondary" style="font-size:0.82rem;padding:0.6rem 1.1rem" onclick="regenerate()">↺ Regenerate</button>
+      </div>
+
+      <div class="summary-grid">
+        <div class="sum-card"><div class="sum-label">Est. weekly cost</div><div class="sum-val" id="est-cost">—</div></div>
+        <div class="sum-card"><div class="sum-label">Avg cal/day</div><div class="sum-val" id="est-cal">—</div></div>
+        <div class="sum-card"><div class="sum-label">Meals planned</div><div class="sum-val" id="est-meals">—</div></div>
+      </div>
+
+      <div class="tt-wrap" role="region" aria-label="Weekly meal timetable">
+        <div class="tt" id="timetable"></div>
+      </div>
+
+      <div class="legend">
+        <div class="legend-item"><div class="ldot-sq" style="background:#FFF3CD"></div>Breakfast</div>
+        <div class="legend-item"><div class="ldot-sq" style="background:#DCF0DC"></div>Lunch</div>
+        <div class="legend-item"><div class="ldot-sq" style="background:#C8E8E9"></div>Dinner</div>
+        <div class="legend-item"><div class="ldot-sq" style="background:#E8D0EA"></div>Snack</div>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+        <button class="btn-ghost" onclick="goStep(1)">✎ Edit preferences</button>
+        <button class="btn-primary" onclick="getShoppingList(this)">🛒 Get shopping list</button>
+      </div>
+    </div>
+
+    <div id="shopping-card" style="display:none">
+      <div class="card" style="animation: fadeUp 0.3s ease;">
+        <div class="section-title">🛒 Your shopping list</div>
+        <div class="section-sub">Nigerian market ingredients for your 7-day plan</div>
+        <div id="shopping-content" style="font-size:0.9rem;color:var(--text-mid);white-space:pre-wrap;line-height:1.9;"></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <strong>NutriPlan</strong> · Made for Nigerians · AI-powered by Claude · No data stored · © 2026
+</footer>
+
+<script>
+  const state = {
+    diet: null, goal: null,
+    meals: null, cuisines: [],
+    budget: 20000
+  };
+
+  const DAYS  = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  const SHORT = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+  function pick(el, group) {
+    el.closest('.opt-grid, .meals-grid')
+      .querySelectorAll('.opt-btn, .meal-opt')
+      .forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    state[group] = el.dataset.val;
+  }
+
+  function toggleCuisine(el) {
+    el.classList.toggle('selected');
+    const v = el.dataset.val;
+    state.cuisines = el.classList.contains('selected')
+      ? [...state.cuisines, v]
+      : state.cuisines.filter(x => x !== v);
+  }
+
+  function updateBudget(val) {
+    state.budget = parseInt(val);
+    document.getElementById('budget-display').textContent = '₦' + parseInt(val).toLocaleString();
+    const pct = ((val - 10000) / 140000 * 100).toFixed(1);
+    document.getElementById('budget-slider').style.setProperty('--val', pct + '%');
+  }
+
+  function goStep(n) {
+    if (n === 2 && (!state.diet || !state.goal)) {
+      alert('Please select a dietary preference and a health goal.');
+      return;
+    }
+    if (n === 3) {
+      if (!state.meals) { alert('Please select how many meals per day.'); return; }
+      setProgress(3);
+      showPanel(3);
+      runLoadingAnimation();
+      callAPI();
+      return;
+    }
+    setProgress(n);
+    showPanel(n);
+  }
+
+  function showPanel(n) {
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('panel' + n).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function setProgress(n) {
+    [1, 2, 3].forEach(i => {
+      const dot = document.getElementById('dot' + i);
+      dot.className = 'step-dot';
+      if (i < n)        { dot.classList.add('done');   dot.textContent = '✓'; }
+      else if (i === n) { dot.classList.add('active'); dot.textContent = i; }
+      else              { dot.textContent = i; }
+    });
+    [1, 2].forEach(i => {
+      const line = document.getElementById('line' + i);
+      if (line) line.className = 'step-line' + (i < n ? ' done' : '');
+    });
+  }
+
+  function runLoadingAnimation() {
+    const ids = ['ls1','ls2','ls3','ls4'];
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      el.className = 'lstep';
+      el.querySelector('.ldot').style.background = '';
+    });
+    document.getElementById('ls1').classList.add('on');
+    let i = 0;
+    const iv = setInterval(() => {
+      if (i >= ids.length - 1) { clearInterval(iv); return; }
+      document.getElementById(ids[i]).classList.remove('on');
+      document.getElementById(ids[i]).classList.add('done');
+      document.getElementById(ids[i]).querySelector('.ldot').style.background = 'var(--sage)';
+      i++;
+      document.getElementById(ids[i]).classList.add('on');
+    }, 1400);
+    return iv;
+  }
+
+  async function callAPI() {
+    const body = {
+      diet:     state.diet,
+      goal:     state.goal,
+      budget:   state.budget,
+      cuisines: state.cuisines.length ? state.cuisines : ['national'],
+      meals:    parseInt(state.meals)
+    };
+
+    try {
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      const data = await res.json();
+      if (data.success && data.plan) {
+        renderPlan(data.plan, false);
+      } else {
+        renderFallback();
+      }
+    } catch (err) {
+      console.error('API error:', err);
+      renderFallback();
+    }
+  }
+
+  function renderPlan(plan, isFallback) {
+    const mealCount = parseInt(state.meals);
+    const mealTypes = [];
+    if (mealCount >= 3) mealTypes.push('breakfast');
+    mealTypes.push('lunch', 'dinner');
+    if (mealCount === 4) mealTypes.push('snack');
+
+    document.getElementById('est-cost').textContent  = plan.estimated_weekly_cost || '₦—';
+    document.getElementById('est-cal').textContent   = plan.avg_calories_per_day  || '—';
+    document.getElementById('est-meals').textContent = (mealCount * 7) + ' meals';
+    document.getElementById('plan-note').textContent = plan.notes || 'Personalised for your goals and preferences.';
+    document.getElementById('error-toast').style.display = isFallback ? 'block' : 'none';
+
+    const tt = document.getElementById('timetable');
+    tt.innerHTML = '';
+
+    const headRow = document.createElement('div');
+    headRow.className = 'tt-head-row';
+    headRow.innerHTML = '<div class="tt-head"></div>' +
+      SHORT.map(d => `<div class="tt-head">${d}</div>`).join('');
+    tt.appendChild(headRow);
+
+    mealTypes.forEach(mt => {
+      const row = document.createElement('div');
+      row.className = 'tt-row';
+      const label = document.createElement('div');
+      label.className = 'tt-row-label';
+      label.textContent = mt.charAt(0).toUpperCase() + mt.slice(1);
+      row.appendChild(label);
+
+      DAYS.forEach(day => {
+        const cell = document.createElement('div');
+        cell.className = 'tt-cell';
+        const text = plan.days?.[day]?.[mt] || '—';
+        const pill = document.createElement('div');
+        pill.className = `meal-pill ${mt}`;
+        pill.textContent = text;
+        cell.appendChild(pill);
+        row.appendChild(cell);
+      });
+
+      tt.appendChild(row);
+    });
+
+    document.getElementById('shopping-card').style.display = 'none';
+    setProgress(3);
+    document.getElementById('dot3').textContent = '✓';
+    document.getElementById('dot3').className = 'step-dot done';
+    showPanel(4);
+  }
+
+  function renderFallback() {
+    renderPlan({
+      days: {
+        Monday:    { breakfast: 'Akara & ogi (pap)',          lunch: 'Jollof rice & fried chicken',   dinner: 'Egusi soup & pounded yam',    snack: 'Chin chin & zobo' },
+        Tuesday:   { breakfast: 'Moi moi & agege bread',      lunch: 'Ofada rice & ayamase stew',     dinner: 'Efo riro & eba',              snack: 'Roasted plantain & groundnuts' },
+        Wednesday: { breakfast: 'Yam & egg sauce',            lunch: 'Fried rice & peppered chicken', dinner: 'Ofe onugbu & fufu',           snack: 'Puff puff' },
+        Thursday:  { breakfast: 'Akara & pap',                lunch: 'Amala & ewedu with gbegiri',    dinner: 'Banga soup & starch',         snack: 'Kuli kuli' },
+        Friday:    { breakfast: 'Bread & fried eggs',         lunch: 'Tuwo shinkafa & miyan kuka',    dinner: 'Ogbono soup & pounded yam',   snack: 'Roasted corn & ube' },
+        Saturday:  { breakfast: 'Plantain & scrambled eggs',  lunch: 'Pepper soup & agidi',           dinner: 'Afang soup & eba',            snack: 'Suya & onions' },
+        Sunday:    { breakfast: 'Ogi & moi moi',              lunch: 'Native jollof & assorted meat', dinner: 'Oha soup & fufu',             snack: 'Groundnut & tiger nut' }
+      },
+      estimated_weekly_cost: `₦${Math.round(state.budget * 0.88).toLocaleString()}–₦${state.budget.toLocaleString()}`,
+      avg_calories_per_day:  '1,950 kcal',
+      notes: 'A balanced Nigerian meal plan. Regenerate for a fully AI-personalized version.'
+    }, true);
+  }
+
+  function regenerate() {
+    setProgress(3);
+    showPanel(3);
+    runLoadingAnimation();
+    callAPI();
+  }
+
+  async function getShoppingList(btn) {
+    const timetableText = document.getElementById('timetable').innerText;
+    btn.textContent = '⏳ Generating...';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          diet: state.diet,
+          goal: state.goal,
+          budget: state.budget,
+          cuisines: state.cuisines.length ? state.cuisines : ['national'],
+          meals: parseInt(state.meals),
+          shoppingList: true,
+          timetableContext: timetableText
+        })
+      });
+      const data = await res.json();
+      document.getElementById('shopping-content').textContent =
+        data.shoppingList || 'Could not generate a shopping list. Please try again.';
+    } catch(e) {
+      document.getElementById('shopping-content').textContent = 'Could not generate shopping list. Please try again.';
+    }
+
+    document.getElementById('shopping-card').style.display = 'block';
+    document.getElementById('shopping-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    btn.textContent = '🛒 Get shopping list';
+    btn.disabled = false;
+  }
+
+  updateBudget(20000);
+</script>
+</body>
+</html>

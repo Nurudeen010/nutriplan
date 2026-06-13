@@ -214,11 +214,19 @@ Return ONLY valid JSON — no markdown, no explanation, no preamble.
 Rules:
 - Only include meal keys for: ${mealTypes.join(', ')}
 - Meal names: 3–6 words max
-- Use Nigerian dish names: Jollof Rice, Egusi Soup, Pounded Yam, Amala, Ewedu, Gbegiri, Ofada Rice, Banga Soup, Efo Riro, Ofe Onugbu, Oha Soup, Afang Soup, Tuwo Shinkafa, Miyan Kuka, Ogbono Soup, Suya, Akara, Moi Moi, Eba, Fufu
-- Breakfast options: Akara & pap, Moi moi & bread, Yam & egg sauce, Ogi & akara, Plantain & eggs, Bread & Akara
-- Snack options: Chin chin, Puff puff, Roasted plantain, Groundnuts, Suya, Kuli kuli, Zobo, Roasted corn
+- Use Nigerian dish names authentically but apply strict meal-time logic (see below)
+- Breakfast options: Akara & pap, Moi moi & bread, Yam & egg sauce, Ogi & akara, Plantain & eggs, Bread & Akara, Oat & milk, Ogi & groundnut
+- Lunch options (main heavy meal of the day): Jollof Rice & chicken, Ofada Rice & stew, Fried Rice & fish, Beans & plantain, Amala & ewedu, Pounded yam & egusi, Tuwo shinkafa & miyan kuka, Banga soup & starch, Ofe onugbu & fufu
+- Dinner options (MUST be light and healthy): Pepper soup without swallow, Grilled fish & vegetable salad, Egg sauce & small yam, Moi moi & vegetables, Efo riro lite & small portion, Light catfish pepper soup, Vegetable stir fry & fish, Beans porridge (light), Garden egg stew & grilled fish, Chicken vegetable soup, Ukazi soup & small protein
+- Snack options: Chin chin, Puff puff, Roasted plantain, Groundnuts, Suya, Kuli kuli, Zobo, Roasted corn, Tiger nuts, Banana
+- DINNER RULES — strictly enforce every single day:
+    * Dinner MUST be lighter than lunch — swallow foods (pounded yam, eba, amala, fufu, tuwo) are for LUNCH only, never dinner
+    * Heavy soups (egusi, ogbono, banga, ofe onugbu) belong at LUNCH only
+    * Dinner must focus on protein + vegetables, low carbohydrate
+    * At least 5 out of 7 dinners must be completely swallow-free
+    * Pepper soup, grilled protein, vegetable-based dishes and light soups are ideal dinners
 - No dish repeated more than twice across the week
-- Cuisine breakdown: Yoruba=Amala/Ewedu/Gbegiri/Efo Riro, Igbo=Ofe Onugbu/Oha Soup, Hausa=Tuwo/Miyan Kuka/Suya, Delta=Banga Soup/Starch/Fisherman Soup
+- Cuisine breakdown: Yoruba=Amala/Ewedu at lunch only; Igbo=Ofe Onugbu/Oha at lunch only; Hausa=Tuwo at lunch, Miyan Kuka pepper soup at dinner; Delta=Banga Soup at lunch, catfish pepper soup at dinner
 - Goal-specific guidance:
     weight_loss      = low calorie Nigerian meals, smaller portions, avoid fried foods
     muscle_gain      = high protein (eggs/fish/chicken/beans featured every day)

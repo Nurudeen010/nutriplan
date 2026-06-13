@@ -1,6 +1,7 @@
 // api/generate.js
 // Vercel Serverless Function — Claude API Proxy
 // API key never reaches the browser. All inputs sanitized server-side.
+// v20 — Updated: new health goals, goal-specific nutrition guidance
 
 // ── 2026 NIGERIAN MARKET PRICE REFERENCE ──────────────────────────────────
 // Sources: NBS Food Price Watch, NigerianQueries April 2026, McEbisco Market Data
@@ -92,7 +93,7 @@ export default async function handler(req, res) {
 
   // ── SHOPPING LIST MODE ──────────────────────────────────────────────────
   if (shoppingList && timetableContext) {
-    const safeContext = String(timetableContext).slice(0, 2000);
+    const safeContext  = String(timetableContext).slice(0, 2000);
     const safeBudgetSL = Math.min(Math.max(parseInt(budget) || 20000, 10000), 150000);
 
     try {
@@ -120,22 +121,22 @@ Use ONLY these verified current market prices when estimating costs:
 
 ${NIGERIAN_MARKET_PRICES}
 
-Format the shopping list exactly like this:
+Format the shopping list EXACTLY like this — do not deviate:
 
 📦 GRAINS & STAPLES
-• [Item] — [quantity needed] — ₦[realistic price range]
+• [Item name] — [quantity] — ₦[price range]
 
 🥩 PROTEINS
-• [Item] — [quantity needed] — ₦[realistic price range]
+• [Item name] — [quantity] — ₦[price range]
 
 🥬 VEGETABLES & PRODUCE
-• [Item] — [quantity needed] — ₦[realistic price range]
+• [Item name] — [quantity] — ₦[price range]
 
 🫙 OILS & CONDIMENTS
-• [Item] — [quantity needed] — ₦[realistic price range]
+• [Item name] — [quantity] — ₦[price range]
 
 🧺 OTHER ITEMS
-• [Item] — [quantity needed] — ₦[realistic price range]
+• [Item name] — [quantity] — ₦[price range]
 
 💰 ESTIMATED WEEKLY TOTAL: ₦[sum of all items]
 💡 BUDGET TIP: [one practical tip for buying these items cheaper in Nigerian markets]
@@ -145,13 +146,14 @@ Rules:
 - List realistic quantities for one person for one week
 - All prices in Naira (₦) only — no dollars
 - Keep the list practical for Nigerian open markets
-- If budget is tight, suggest smaller quantities or cheaper alternatives`
+- If budget is tight, suggest smaller quantities or cheaper alternatives
+- Every item line MUST start with • and follow the exact format above`
           }]
         })
       });
 
-      const data = await response.json();
-      const list = data.content.map(b => b.text || '').join('');
+      const data     = await response.json();
+      const list     = data.content.map(b => b.text || '').join('');
 
       return res.status(200).json({ success: true, shoppingList: list });
 
@@ -213,11 +215,19 @@ Rules:
 - Only include meal keys for: ${mealTypes.join(', ')}
 - Meal names: 3–6 words max
 - Use Nigerian dish names: Jollof Rice, Egusi Soup, Pounded Yam, Amala, Ewedu, Gbegiri, Ofada Rice, Banga Soup, Efo Riro, Ofe Onugbu, Oha Soup, Afang Soup, Tuwo Shinkafa, Miyan Kuka, Ogbono Soup, Suya, Akara, Moi Moi, Eba, Fufu
-- Breakfast: Akara & pap, Moi moi & bread, Yam & egg sauce, Ogi & akara, Plantain & eggs, Bread & Akara
-- Snacks: Chin chin, Puff puff, Roasted plantain, Groundnuts, Suya, Kuli kuli, Zobo, Roasted corn
+- Breakfast options: Akara & pap, Moi moi & bread, Yam & egg sauce, Ogi & akara, Plantain & eggs, Bread & Akara
+- Snack options: Chin chin, Puff puff, Roasted plantain, Groundnuts, Suya, Kuli kuli, Zobo, Roasted corn
 - No dish repeated more than twice across the week
 - Cuisine breakdown: Yoruba=Amala/Ewedu/Gbegiri/Efo Riro, Igbo=Ofe Onugbu/Oha Soup, Hausa=Tuwo/Miyan Kuka/Suya, Delta=Banga Soup/Starch/Fisherman Soup
-- Goal-specific guidance: weight_loss=low calorie Nigerian meals, muscle_gain=high protein (eggs/fish/chicken/beans), maintenance=balanced, energy=complex carbs+iron-rich foods, increase_appetite=small frequent calorie-dense meals to stimulate hunger, weight_gain=calorie surplus with healthy Nigerian foods like fried plantain/groundnut soup/agege bread
+- Goal-specific guidance:
+    weight_loss      = low calorie Nigerian meals, smaller portions, avoid fried foods
+    muscle_gain      = high protein (eggs/fish/chicken/beans featured every day)
+    maintenance      = balanced macros, variety across the week
+    energy           = complex carbs and iron-rich Nigerian foods (beans, ofada rice, ugu)
+    increase_appetite = small frequent calorie-dense meals to stimulate hunger (peanut butter, agege bread, ogi with milk, groundnut soup)
+    weight_gain      = calorie surplus with healthy Nigerian foods (fried plantain, groundnut soup, agege bread, full-fat milk, beans)
+    high_protein     = prioritize eggs, fish, chicken, beans, egusi at every meal
+    low_carb         = reduce rice, yam, fufu — increase vegetables, fish, eggs, meat
 - Budget estimate MUST be in Naira (₦) and within ±15% of ₦${safeBudget.toLocaleString()}/week`;
 
   try {
@@ -242,7 +252,7 @@ Rules:
     }
 
     const data = await response.json();
-    const raw = data.content
+    const raw  = data.content
       .map(block => block.text || '')
       .join('')
       .replace(/```json|```/g, '')
@@ -254,7 +264,7 @@ Rules:
       throw new Error('Invalid plan structure from AI');
     }
 
-    // Force Naira — strip any dollar signs Claude may have used
+    // Force Naira — strip any dollar signs Claude may have returned
     if (plan.estimated_weekly_cost) {
       plan.estimated_weekly_cost = plan.estimated_weekly_cost
         .replace(/\$/g, '₦')

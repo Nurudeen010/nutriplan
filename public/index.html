@@ -54,6 +54,8 @@
     mixpanel.init('1ad8ca68ee0fe346ab1f42a1ca0d0a3d', { track_pageview: true, persistence: 'localStorage' });
   </script>
 
+  <!-- html2canvas for timetable download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
@@ -237,6 +239,40 @@
     .meal-pill.dinner    { background: #C8E8E9; color: #1A4A4C; }
     .meal-pill.snack     { background: #E8D0EA; color: #4A1A4C; }
 
+    /* MOBILE TIMETABLE — stacks days vertically on small screens */
+    @media (max-width: 600px) {
+      .tt { min-width: unset; }
+      .tt-wrap { overflow-x: unset; }
+      .tt-head-row { display: none; } /* hide column headers — day shown in each card instead */
+      .tt-row { grid-template-columns: 1fr; border-top: none; margin-bottom: 10px; }
+      .tt-row-label {
+        background: var(--forest);
+        color: rgba(255,255,255,0.85);
+        border-right: none;
+        border-radius: var(--radius-md) var(--radius-md) 0 0;
+        padding: 8px 12px;
+        font-size: 0.75rem;
+      }
+      .tt-cell {
+        border-right: none;
+        border-top: 1px solid var(--border);
+        padding: 8px 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .tt-cell::before {
+        content: attr(data-day);
+        font-size: 0.68rem;
+        font-weight: 600;
+        color: var(--text-light);
+        min-width: 32px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .meal-pill { font-size: 0.82rem; padding: 5px 10px; }
+    }
+
     /* LEGEND */
     .legend { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 1.25rem; }
     .legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.78rem; color: var(--text-mid); }
@@ -261,6 +297,71 @@
 
     /* HIDE utility */
     .np-hidden { display: none !important; }
+
+    /* DOWNLOAD BUTTON pulse on results */
+    #download-btn { transition: all 0.18s; }
+    #download-btn:hover { border-color: var(--forest); color: var(--forest); }
+
+    /* SHOPPING LIST FORMATTED */
+    .sl-wrap { font-size: 0.9rem; color: var(--text-mid); }
+    .sl-category {
+      margin-bottom: 1.25rem;
+    }
+    .sl-cat-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Fraunces', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--forest);
+      padding: 8px 12px;
+      background: var(--cream);
+      border-radius: var(--radius-md);
+      margin-bottom: 8px;
+      border-left: 3px solid var(--sage);
+    }
+    .sl-items { display: flex; flex-direction: column; gap: 6px; padding: 0 4px; }
+    .sl-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 7px 12px;
+      background: var(--warm);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      gap: 10px;
+    }
+    .sl-item-name { color: var(--text); flex: 1; line-height: 1.4; }
+    .sl-item-price {
+      color: var(--forest);
+      font-weight: 600;
+      white-space: nowrap;
+      font-size: 0.82rem;
+    }
+    .sl-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.25rem;
+      background: var(--forest);
+      border-radius: var(--radius-md);
+      margin-top: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    .sl-total-label { color: rgba(255,255,255,0.75); font-size: 0.85rem; }
+    .sl-total-value { color: var(--gold); font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 700; }
+    .sl-tip {
+      background: var(--gold-l);
+      border: 1px solid rgba(196,151,42,0.3);
+      border-radius: var(--radius-md);
+      padding: 0.75rem 1rem;
+      font-size: 0.82rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+    }
+    .sl-tip strong { color: var(--forest); }
 
     /* FOOTER */
     footer { background: var(--forest); color: rgba(255,255,255,0.45); text-align: center; padding: 1.5rem; font-size: 0.78rem; margin-top: 4rem; }
@@ -340,11 +441,13 @@
       <div class="divider"></div>
       <div class="section-title">Health goal</div>
       <div class="section-sub">What are you working towards?</div>
-      <div class="opt-grid g2" id="goal-grid">
-        <button class="opt-btn" data-val="weight_loss" onclick="pick(this,'goal')"><span class="opt-emoji">📉</span><span class="opt-label">Weight loss</span><span class="opt-desc">Calorie deficit meals</span></button>
-        <button class="opt-btn" data-val="muscle_gain" onclick="pick(this,'goal')"><span class="opt-emoji">🏋️</span><span class="opt-label">Muscle gain</span><span class="opt-desc">High protein focus</span></button>
-        <button class="opt-btn" data-val="maintenance" onclick="pick(this,'goal')"><span class="opt-emoji">⚖️</span><span class="opt-label">Maintenance</span><span class="opt-desc">Balanced calories</span></button>
-        <button class="opt-btn" data-val="energy"      onclick="pick(this,'goal')"><span class="opt-emoji">⚡</span><span class="opt-label">More energy</span><span class="opt-desc">Nutrient-dense meals</span></button>
+      <div class="opt-grid g3" id="goal-grid">
+        <button class="opt-btn" data-val="weight_loss"      onclick="pick(this,'goal')"><span class="opt-emoji">📉</span><span class="opt-label">Weight loss</span><span class="opt-desc">Calorie deficit meals</span></button>
+        <button class="opt-btn" data-val="muscle_gain"      onclick="pick(this,'goal')"><span class="opt-emoji">🏋️</span><span class="opt-label">Muscle gain</span><span class="opt-desc">High protein focus</span></button>
+        <button class="opt-btn" data-val="maintenance"      onclick="pick(this,'goal')"><span class="opt-emoji">⚖️</span><span class="opt-label">Maintenance</span><span class="opt-desc">Balanced calories</span></button>
+        <button class="opt-btn" data-val="energy"           onclick="pick(this,'goal')"><span class="opt-emoji">⚡</span><span class="opt-label">More energy</span><span class="opt-desc">Nutrient-dense meals</span></button>
+        <button class="opt-btn" data-val="increase_appetite" onclick="pick(this,'goal')"><span class="opt-emoji">🍽️</span><span class="opt-label">Eat more</span><span class="opt-desc">Low appetite, need more</span></button>
+        <button class="opt-btn" data-val="weight_gain"      onclick="pick(this,'goal')"><span class="opt-emoji">📈</span><span class="opt-label">Weight gain</span><span class="opt-desc">Healthy calorie surplus</span></button>
       </div>
       <div class="btn-row"><span></span><button class="btn-primary" onclick="goStep(2)">Continue →</button></div>
     </div>
@@ -413,7 +516,10 @@
           <div class="result-title">Your weekly meal plan 🇳🇬</div>
           <div class="result-note" id="plan-note">Personalised for your goals and preferences.</div>
         </div>
-        <button class="btn-secondary" style="font-size:0.82rem;padding:0.6rem 1.1rem" onclick="regenerate()">↺ Regenerate</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn-secondary" style="font-size:0.82rem;padding:0.6rem 1.1rem" onclick="regenerate()">↺ Regenerate</button>
+          <button class="btn-secondary" style="font-size:0.82rem;padding:0.6rem 1.1rem" onclick="downloadPlan()" id="download-btn">⬇ Save plan</button>
+        </div>
       </div>
       <div class="summary-grid">
         <div class="sum-card"><div class="sum-label">Est. weekly cost</div><div class="sum-val" id="est-cost">—</div></div>
@@ -440,7 +546,7 @@
           <span class="pd-icon">📊</span>
           <span>Prices are based on <strong>June 2026 Nigerian market data</strong> and may vary by location, season, and vendor. Lagos prices are typically 10–20% higher than Northern markets. Always confirm prices at your local market before shopping.</span>
         </div>
-        <div id="shopping-content" style="font-size:0.9rem;color:var(--text-mid);white-space:pre-wrap;line-height:1.9;"></div>
+        <div id="shopping-content" class="sl-wrap"></div>
       </div>
     </div>
   </div>
@@ -706,9 +812,10 @@
       label.className = 'tt-row-label';
       label.textContent = mt.charAt(0).toUpperCase() + mt.slice(1);
       row.appendChild(label);
-      DAYS.forEach(day => {
+      DAYS.forEach((day, di) => {
         const cell = document.createElement('div');
         cell.className = 'tt-cell';
+        cell.setAttribute('data-day', SHORT[di]); // used by mobile CSS ::before
         const pill = document.createElement('div');
         pill.className = `meal-pill ${mt}`;
         pill.textContent = plan.days?.[day]?.[mt] || '—';
@@ -762,9 +869,127 @@
     }, true);
   }
 
+  /* ── RENDER SHOPPING LIST ── */
+  function renderShoppingList(text) {
+    const container = document.getElementById('shopping-content');
+
+    if (!text || text.trim().length < 10) {
+      container.innerHTML = '<p style="color:var(--text-light);font-size:0.875rem;">Could not generate shopping list. Please try again.</p>';
+      return;
+    }
+
+    // Split into lines and parse
+    const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+    let html = '';
+    let inCategory = false;
+    let totalLine = '';
+    let tipLine = '';
+
+    lines.forEach(line => {
+      // Detect total line
+      if (line.includes('ESTIMATED WEEKLY TOTAL') || line.includes('TOTAL:')) {
+        const parts = line.split(':');
+        const amount = parts.length > 1 ? parts.slice(1).join(':').trim() : '';
+        totalLine = amount;
+        if (inCategory) { html += '</div></div>'; inCategory = false; }
+        return;
+      }
+
+      // Detect budget tip line
+      if (line.includes('BUDGET TIP') || line.includes('💡')) {
+        const tip = line.replace('💡', '').replace('BUDGET TIP:', '').replace('BUDGET TIP', '').trim();
+        tipLine = tip;
+        return;
+      }
+
+      // Detect category header (contains emoji + ALL CAPS or starts with emoji)
+      const emojiPattern = /^[📦🥩🥬🫙🧺🥚🌾🍎]/u;
+      const isHeader = emojiPattern.test(line) || (line.toUpperCase() === line && line.length > 3 && !line.startsWith('•'));
+
+      if (isHeader) {
+        if (inCategory) html += '</div></div>';
+        html += `<div class="sl-category"><div class="sl-cat-header">${line}</div><div class="sl-items">`;
+        inCategory = true;
+        return;
+      }
+
+      // Detect item line (starts with •, -, or *)
+      if (line.startsWith('•') || line.startsWith('-') || line.startsWith('*')) {
+        const clean = line.replace(/^[•\-*]\s*/, '');
+
+        // Try to split item name from price (separated by — or -)
+        const priceSplit = clean.match(/^(.+?)\s*[—–-]{1,2}\s*(₦[\d,\s–—]+(?:\/?\w+)?.*?)$/);
+
+        if (priceSplit) {
+          const itemPart = priceSplit[1].trim();
+          const pricePart = priceSplit[2].trim();
+
+          // Further split quantity from name if present
+          const qtyMatch = itemPart.match(/^(.+?)\s*[—–-]\s*(.+)$/);
+          const displayName = qtyMatch ? `${qtyMatch[1]} <span style="color:var(--text-light);font-size:0.78rem;">(${qtyMatch[2]})</span>` : itemPart;
+
+          html += `<div class="sl-item"><span class="sl-item-name">${displayName}</span><span class="sl-item-price">${pricePart}</span></div>`;
+        } else {
+          html += `<div class="sl-item"><span class="sl-item-name">${clean}</span></div>`;
+        }
+        return;
+      }
+
+      // Any other non-empty line — render as plain text
+      if (line.length > 2) {
+        html += `<p style="font-size:0.82rem;color:var(--text-light);margin:4px 0;">${line}</p>`;
+      }
+    });
+
+    if (inCategory) html += '</div></div>';
+
+    // Append total
+    if (totalLine) {
+      html += `<div class="sl-total"><span class="sl-total-label">Estimated weekly total</span><span class="sl-total-value">${totalLine}</span></div>`;
+    }
+
+    // Append tip
+    if (tipLine) {
+      html += `<div class="sl-tip"><strong>💡 Market tip:</strong> ${tipLine}</div>`;
+    }
+
+    container.innerHTML = html;
+  }
+
   function regenerate() {
     track('plan_regenerated', { diet: state.diet, goal: state.goal, budget: state.budget });
     setProgress(3); showPanel(3); runLoadingAnimation(); callAPI();
+  }
+
+  /* ── DOWNLOAD TIMETABLE AS IMAGE ── */
+  async function downloadPlan() {
+    const btn = document.getElementById('download-btn');
+    btn.textContent = '⏳ Saving...';
+    btn.disabled = true;
+
+    try {
+      const target = document.querySelector('.card'); // capture the results card
+      const canvas = await html2canvas(target, {
+        backgroundColor: '#FFFDF9',
+        scale: 2, // high resolution for mobile screens
+        useCORS: true,
+        logging: false
+      });
+
+      // Create download link
+      const link = document.createElement('a');
+      link.download = `NutriPlan_${state.diet}_${state.goal}_week.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+
+      track('plan_downloaded', { diet: state.diet, goal: state.goal, budget: state.budget });
+    } catch(e) {
+      alert('Could not save plan. Please try taking a screenshot instead.');
+      console.error('Download error:', e);
+    }
+
+    btn.textContent = '⬇ Save plan';
+    btn.disabled = false;
   }
 
   /* ── SHOPPING LIST ── */
@@ -776,9 +1001,9 @@
     try {
       const res  = await fetch('/api/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ diet: state.diet, goal: state.goal, budget: state.budget, cuisines: state.cuisines.length ? state.cuisines : ['national'], meals: parseInt(state.meals), shoppingList: true, timetableContext: timetableText }) });
       const data = await res.json();
-      document.getElementById('shopping-content').textContent = data.shoppingList || 'Could not generate a shopping list. Please try again.';
+      renderShoppingList(data.shoppingList || '');
     } catch(e) {
-      document.getElementById('shopping-content').textContent = 'Could not generate shopping list. Please try again.';
+      document.getElementById('shopping-content').innerHTML = '<p style="color:var(--text-light);font-size:0.875rem;">Could not generate shopping list. Please try again.</p>';
     }
     document.getElementById('shopping-card').style.display = 'block';
     document.getElementById('shopping-card').scrollIntoView({ behavior: 'smooth', block: 'start' });

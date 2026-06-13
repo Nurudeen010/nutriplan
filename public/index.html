@@ -224,53 +224,73 @@
     .sum-label { font-size: 0.7rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
     .sum-val { font-family: 'Fraunces', serif; font-size: 1.35rem; font-weight: 700; color: var(--forest); line-height: 1.2; }
 
-    /* TIMETABLE */
-    .tt-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 1.25rem; }
-    .tt { min-width: 580px; }
-    .tt-head-row { display: grid; grid-template-columns: 76px repeat(7, 1fr); background: var(--forest); }
-    .tt-head { padding: 9px 5px; font-size: 0.68rem; font-weight: 600; color: rgba(255,255,255,0.75); text-align: center; text-transform: uppercase; letter-spacing: 0.04em; }
-    .tt-row { display: grid; grid-template-columns: 76px repeat(7, 1fr); border-top: 1px solid var(--border); }
-    .tt-row-label { padding: 8px 7px; font-size: 0.67rem; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.05em; background: var(--cream); border-right: 1px solid var(--border); display: flex; align-items: center; }
-    .tt-cell { padding: 6px 5px; background: var(--warm); border-right: 1px solid var(--border); display: flex; align-items: flex-start; }
-    .tt-cell:last-child { border-right: none; }
-    .meal-pill { font-size: 0.68rem; font-weight: 500; line-height: 1.35; padding: 3px 6px; border-radius: 5px; width: 100%; }
-    .meal-pill.breakfast { background: #FFF3CD; color: #7A5A10; }
-    .meal-pill.lunch     { background: #DCF0DC; color: #1A4A1A; }
-    .meal-pill.dinner    { background: #C8E8E9; color: #1A4A4C; }
-    .meal-pill.snack     { background: #E8D0EA; color: #4A1A4C; }
+    /* TIMETABLE — Day-grouped layout */
+    .tt-wrap { border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 1.25rem; overflow: hidden; }
+    .tt { display: flex; flex-direction: column; gap: 0; }
 
-    /* MOBILE TIMETABLE — stacks days vertically on small screens */
-    @media (max-width: 600px) {
-      .tt { min-width: unset; }
-      .tt-wrap { overflow-x: unset; }
-      .tt-head-row { display: none; } /* hide column headers — day shown in each card instead */
-      .tt-row { grid-template-columns: 1fr; border-top: none; margin-bottom: 10px; }
-      .tt-row-label {
-        background: var(--forest);
-        color: rgba(255,255,255,0.85);
-        border-right: none;
-        border-radius: var(--radius-md) var(--radius-md) 0 0;
-        padding: 8px 12px;
-        font-size: 0.75rem;
-      }
-      .tt-cell {
-        border-right: none;
-        border-top: 1px solid var(--border);
-        padding: 8px 12px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .tt-cell::before {
-        content: attr(data-day);
-        font-size: 0.68rem;
-        font-weight: 600;
-        color: var(--text-light);
-        min-width: 32px;
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-      }
-      .meal-pill { font-size: 0.82rem; padding: 5px 10px; }
+    /* Day card */
+    .tt-day-card { border-bottom: 1px solid var(--border); }
+    .tt-day-card:last-child { border-bottom: none; }
+
+    /* Day header */
+    .tt-day-header {
+      background: var(--forest);
+      color: #fff;
+      padding: 10px 16px;
+      font-family: 'Fraunces', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .tt-day-header .day-badge {
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* Meals row inside each day */
+    .tt-meals-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      background: var(--warm);
+    }
+
+    .tt-meal-slot {
+      padding: 10px 12px;
+      border-right: 1px solid var(--border);
+    }
+    .tt-meal-slot:last-child { border-right: none; }
+
+    .tt-meal-type {
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-light);
+      margin-bottom: 5px;
+    }
+    .tt-meal-name {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.4;
+      padding: 5px 8px;
+      border-radius: var(--radius-sm);
+    }
+    .tt-meal-name.breakfast { background: #FFF3CD; color: #7A5A10; }
+    .tt-meal-name.lunch     { background: #DCF0DC; color: #1A4A1A; }
+    .tt-meal-name.dinner    { background: #C8E8E9; color: #1A4A4C; }
+    .tt-meal-name.snack     { background: #E8D0EA; color: #4A1A4C; }
+
+    @media (max-width: 540px) {
+      .tt-meals-row { grid-template-columns: 1fr 1fr; }
+      .tt-meal-slot { border-bottom: 1px solid var(--border); }
+      .tt-meal-slot:nth-last-child(-n+2) { border-bottom: none; }
     }
 
     /* LEGEND */
@@ -304,62 +324,79 @@
 
     /* SHOPPING LIST FORMATTED */
     .sl-wrap { font-size: 0.9rem; color: var(--text-mid); }
-    .sl-category {
-      margin-bottom: 1.25rem;
-    }
+    .sl-category { margin-bottom: 1.5rem; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+
     .sl-cat-header {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 8px;
       font-family: 'Fraunces', serif;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 600;
-      color: var(--forest);
-      padding: 8px 12px;
-      background: var(--cream);
-      border-radius: var(--radius-md);
-      margin-bottom: 8px;
-      border-left: 3px solid var(--sage);
+      color: #fff;
+      padding: 10px 14px;
+      background: var(--forest);
+      border-left: 4px solid var(--gold);
     }
-    .sl-items { display: flex; flex-direction: column; gap: 6px; padding: 0 4px; }
+    .sl-cat-subtotal {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    .sl-items { display: flex; flex-direction: column; }
     .sl-item {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      padding: 7px 12px;
+      align-items: center;
+      padding: 10px 14px;
       background: var(--warm);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
+      border-top: 1px solid var(--border);
       font-size: 0.85rem;
-      gap: 10px;
+      gap: 12px;
+      transition: background 0.15s;
     }
-    .sl-item-name { color: var(--text); flex: 1; line-height: 1.4; }
+    .sl-item:hover { background: var(--cream); }
+    .sl-item-left { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+    .sl-item-name { color: var(--text); font-weight: 500; line-height: 1.4; }
+    .sl-item-qty { font-size: 0.72rem; color: var(--text-light); }
     .sl-item-price {
       color: var(--forest);
-      font-weight: 600;
+      font-weight: 700;
       white-space: nowrap;
-      font-size: 0.82rem;
+      font-size: 0.85rem;
+      background: var(--cream);
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
     }
-    .sl-total {
+
+    .sl-grand-total {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 1.25rem;
+      padding: 1.1rem 1.25rem;
       background: var(--forest);
       border-radius: var(--radius-md);
-      margin-top: 1rem;
-      margin-bottom: 0.75rem;
+      margin-top: 0.5rem;
+      margin-bottom: 0.875rem;
     }
-    .sl-total-label { color: rgba(255,255,255,0.75); font-size: 0.85rem; }
-    .sl-total-value { color: var(--gold); font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 700; }
+    .sl-grand-label { color: rgba(255,255,255,0.75); font-size: 0.875rem; }
+    .sl-grand-value { color: var(--gold); font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 700; }
+
     .sl-tip {
       background: var(--gold-l);
       border: 1px solid rgba(196,151,42,0.3);
       border-radius: var(--radius-md);
-      padding: 0.75rem 1rem;
+      padding: 0.875rem 1rem;
       font-size: 0.82rem;
       color: var(--text-mid);
-      line-height: 1.6;
+      line-height: 1.65;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
     }
     .sl-tip strong { color: var(--forest); }
 
@@ -526,7 +563,7 @@
         <div class="sum-card"><div class="sum-label">Avg cal/day</div><div class="sum-val" id="est-cal">—</div></div>
         <div class="sum-card"><div class="sum-label">Meals planned</div><div class="sum-val" id="est-meals">—</div></div>
       </div>
-      <div class="tt-wrap" role="region" aria-label="Weekly meal timetable"><div class="tt" id="timetable"></div></div>
+      <div class="tt-wrap" id="timetable-download-target" role="region" aria-label="Weekly meal timetable"><div class="tt" id="timetable"></div></div>
       <div class="legend">
         <div class="legend-item"><div class="ldot-sq" style="background:#FFF3CD"></div>Breakfast</div>
         <div class="legend-item"><div class="ldot-sq" style="background:#DCF0DC"></div>Lunch</div>
@@ -800,29 +837,41 @@
 
     const tt = document.getElementById('timetable');
     tt.innerHTML = '';
-    const headRow = document.createElement('div');
-    headRow.className = 'tt-head-row';
-    headRow.innerHTML = '<div class="tt-head"></div>' + SHORT.map(d => `<div class="tt-head">${d}</div>`).join('');
-    tt.appendChild(headRow);
 
-    mealTypes.forEach(mt => {
-      const row = document.createElement('div');
-      row.className = 'tt-row';
-      const label = document.createElement('div');
-      label.className = 'tt-row-label';
-      label.textContent = mt.charAt(0).toUpperCase() + mt.slice(1);
-      row.appendChild(label);
-      DAYS.forEach((day, di) => {
-        const cell = document.createElement('div');
-        cell.className = 'tt-cell';
-        cell.setAttribute('data-day', SHORT[di]); // used by mobile CSS ::before
-        const pill = document.createElement('div');
-        pill.className = `meal-pill ${mt}`;
-        pill.textContent = plan.days?.[day]?.[mt] || '—';
-        cell.appendChild(pill);
-        row.appendChild(cell);
+    // Build day-grouped layout — Monday first, all meals together
+    DAYS.forEach((day, di) => {
+      const dayCard = document.createElement('div');
+      dayCard.className = 'tt-day-card';
+
+      // Day header
+      const dayHeader = document.createElement('div');
+      dayHeader.className = 'tt-day-header';
+      dayHeader.innerHTML = `<span>${day}</span><span class="day-badge">${SHORT[di]}</span>`;
+      dayCard.appendChild(dayHeader);
+
+      // Meals row
+      const mealsRow = document.createElement('div');
+      mealsRow.className = 'tt-meals-row';
+
+      mealTypes.forEach(mt => {
+        const slot = document.createElement('div');
+        slot.className = 'tt-meal-slot';
+
+        const typeLabel = document.createElement('div');
+        typeLabel.className = 'tt-meal-type';
+        typeLabel.textContent = mt.charAt(0).toUpperCase() + mt.slice(1);
+
+        const mealName = document.createElement('div');
+        mealName.className = `tt-meal-name ${mt}`;
+        mealName.textContent = plan.days?.[day]?.[mt] || '—';
+
+        slot.appendChild(typeLabel);
+        slot.appendChild(mealName);
+        mealsRow.appendChild(slot);
       });
-      tt.appendChild(row);
+
+      dayCard.appendChild(mealsRow);
+      tt.appendChild(dayCard);
     });
 
     document.getElementById('shopping-card').style.display = 'none';
@@ -874,86 +923,92 @@
     const container = document.getElementById('shopping-content');
 
     if (!text || text.trim().length < 10) {
-      container.innerHTML = '<p style="color:var(--text-light);font-size:0.875rem;">Could not generate shopping list. Please try again.</p>';
+      container.innerHTML = '<p style="color:var(--text-light);font-size:0.875rem;padding:1rem;">Could not generate shopping list. Please try again.</p>';
       return;
     }
 
-    // Split into lines and parse
     const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
     let html = '';
     let inCategory = false;
-    let totalLine = '';
-    let tipLine = '';
+    let currentItems = [];
+    let currentHeader = '';
+    let grandTotal = '';
+    let tipText = '';
+
+    function flushCategory() {
+      if (!currentHeader) return;
+      // Calculate subtotal from items in this category
+      let catTotal = '';
+      const itemsHtml = currentItems.map(item => {
+        // Split: name — quantity — price
+        const parts = item.split(/\s*[—–]\s*/);
+        const name  = parts[0] || item;
+        const qty   = parts[1] || '';
+        const price = parts[2] || '';
+        return `<div class="sl-item">
+          <div class="sl-item-left">
+            <span class="sl-item-name">${name}</span>
+            ${qty ? `<span class="sl-item-qty">${qty}</span>` : ''}
+          </div>
+          ${price ? `<span class="sl-item-price">${price}</span>` : ''}
+        </div>`;
+      }).join('');
+      html += `<div class="sl-category">
+        <div class="sl-cat-header">
+          <span>${currentHeader}</span>
+        </div>
+        <div class="sl-items">${itemsHtml}</div>
+      </div>`;
+      currentItems = [];
+      currentHeader = '';
+    }
 
     lines.forEach(line => {
-      // Detect total line
-      if (line.includes('ESTIMATED WEEKLY TOTAL') || line.includes('TOTAL:')) {
+      // Grand total line
+      if (line.includes('ESTIMATED WEEKLY TOTAL') || (line.includes('TOTAL') && line.includes('₦'))) {
+        flushCategory();
         const parts = line.split(':');
-        const amount = parts.length > 1 ? parts.slice(1).join(':').trim() : '';
-        totalLine = amount;
-        if (inCategory) { html += '</div></div>'; inCategory = false; }
+        grandTotal = parts.length > 1 ? parts.slice(1).join(':').trim() : line;
         return;
       }
-
-      // Detect budget tip line
-      if (line.includes('BUDGET TIP') || line.includes('💡')) {
-        const tip = line.replace('💡', '').replace('BUDGET TIP:', '').replace('BUDGET TIP', '').trim();
-        tipLine = tip;
+      // Budget tip
+      if (line.includes('BUDGET TIP') || line.startsWith('💡')) {
+        flushCategory();
+        tipText = line.replace('💡', '').replace('BUDGET TIP:', '').replace('BUDGET TIP', '').trim();
         return;
       }
-
-      // Detect category header (contains emoji + ALL CAPS or starts with emoji)
-      const emojiPattern = /^[📦🥩🥬🫙🧺🥚🌾🍎]/u;
-      const isHeader = emojiPattern.test(line) || (line.toUpperCase() === line && line.length > 3 && !line.startsWith('•'));
-
-      if (isHeader) {
-        if (inCategory) html += '</div></div>';
-        html += `<div class="sl-category"><div class="sl-cat-header">${line}</div><div class="sl-items">`;
-        inCategory = true;
+      // Category header — starts with emoji or is ALL CAPS
+      const emojiStart = /^[📦🥩🥬🫙🧺🥚🌾🍎🫙]/u.test(line);
+      const allCaps = line === line.toUpperCase() && line.length > 4 && !line.startsWith('•');
+      if (emojiStart || allCaps) {
+        flushCategory();
+        currentHeader = line;
         return;
       }
-
-      // Detect item line (starts with •, -, or *)
+      // Item line
       if (line.startsWith('•') || line.startsWith('-') || line.startsWith('*')) {
         const clean = line.replace(/^[•\-*]\s*/, '');
-
-        // Try to split item name from price (separated by — or -)
-        const priceSplit = clean.match(/^(.+?)\s*[—–-]{1,2}\s*(₦[\d,\s–—]+(?:\/?\w+)?.*?)$/);
-
-        if (priceSplit) {
-          const itemPart = priceSplit[1].trim();
-          const pricePart = priceSplit[2].trim();
-
-          // Further split quantity from name if present
-          const qtyMatch = itemPart.match(/^(.+?)\s*[—–-]\s*(.+)$/);
-          const displayName = qtyMatch ? `${qtyMatch[1]} <span style="color:var(--text-light);font-size:0.78rem;">(${qtyMatch[2]})</span>` : itemPart;
-
-          html += `<div class="sl-item"><span class="sl-item-name">${displayName}</span><span class="sl-item-price">${pricePart}</span></div>`;
-        } else {
-          html += `<div class="sl-item"><span class="sl-item-name">${clean}</span></div>`;
-        }
+        currentItems.push(clean);
         return;
-      }
-
-      // Any other non-empty line — render as plain text
-      if (line.length > 2) {
-        html += `<p style="font-size:0.82rem;color:var(--text-light);margin:4px 0;">${line}</p>`;
       }
     });
 
-    if (inCategory) html += '</div></div>';
+    flushCategory();
 
-    // Append total
-    if (totalLine) {
-      html += `<div class="sl-total"><span class="sl-total-label">Estimated weekly total</span><span class="sl-total-value">${totalLine}</span></div>`;
+    // Grand total banner
+    if (grandTotal) {
+      html += `<div class="sl-grand-total">
+        <span class="sl-grand-label">Estimated weekly total</span>
+        <span class="sl-grand-value">${grandTotal}</span>
+      </div>`;
     }
 
-    // Append tip
-    if (tipLine) {
-      html += `<div class="sl-tip"><strong>💡 Market tip:</strong> ${tipLine}</div>`;
+    // Budget tip
+    if (tipText) {
+      html += `<div class="sl-tip"><span>💡</span><span><strong>Market tip:</strong> ${tipText}</span></div>`;
     }
 
-    container.innerHTML = html;
+    container.innerHTML = html || '<p style="color:var(--text-light);font-size:0.875rem;padding:1rem;">Shopping list could not be parsed. Please regenerate.</p>';
   }
 
   function regenerate() {
@@ -968,23 +1023,32 @@
     btn.disabled = true;
 
     try {
-      const target = document.querySelector('.card'); // capture the results card
+      // Target the timetable wrap specifically for a clean download
+      const target = document.getElementById('timetable-download-target');
+
+      if (!target) {
+        throw new Error('Timetable not found');
+      }
+
       const canvas = await html2canvas(target, {
         backgroundColor: '#FFFDF9',
-        scale: 2, // high resolution for mobile screens
+        scale: 2,
         useCORS: true,
-        logging: false
+        logging: false,
+        allowTaint: true,
+        windowWidth: 800
       });
 
-      // Create download link
       const link = document.createElement('a');
-      link.download = `NutriPlan_${state.diet}_${state.goal}_week.png`;
+      link.download = 'NutriPlan_' + (state.diet || 'meal') + '_' + (state.goal || 'plan') + '_week.png';
       link.href = canvas.toDataURL('image/png');
+      document.body.appendChild(link);
       link.click();
+      document.body.removeChild(link);
 
       track('plan_downloaded', { diet: state.diet, goal: state.goal, budget: state.budget });
     } catch(e) {
-      alert('Could not save plan. Please try taking a screenshot instead.');
+      alert('Could not save plan. Please take a screenshot instead.');
       console.error('Download error:', e);
     }
 

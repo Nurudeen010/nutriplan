@@ -9,11 +9,11 @@
   <meta name="description" content="Free AI-powered Nigerian meal planner. Generate a personalized 7-day food timetable with jollof rice, egusi soup, amala and more — tailored to your Naira budget and health goal. Ready in 2 minutes." />
   <meta name="keywords" content="Nigerian meal planner, weekly food timetable Nigeria, Nigerian diet plan, meal plan Nigeria, jollof rice meal plan, naira food budget, Nigerian nutrition" />
   <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://nutriplan-ypfz.vercel.app/" />
+  <link rel="canonical" href="https://mynutriplan.xyz/" />
 
   <!-- OPEN GRAPH -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://nutriplan-ypfz.vercel.app/" />
+  <meta property="og:url" content="https://mynutriplan.xyz/" />
   <meta property="og:title" content="NutriPlan — Free Nigerian AI Meal Planner" />
   <meta property="og:description" content="Generate your personalized 7-day Nigerian meal plan in under 2 minutes. Jollof rice, egusi soup, amala & more — planned within your Naira budget." />
   <meta property="og:locale" content="en_NG" />
@@ -31,14 +31,13 @@
     "@type": "WebApplication",
     "name": "NutriPlan",
     "description": "Free AI-powered Nigerian meal planner.",
-    "url": "https://nutriplan-ypfz.vercel.app/",
+    "url": "https://mynutriplan.xyz/",
     "applicationCategory": "HealthApplication",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "NGN" }
   }
   </script>
 
-  <!-- ── GOOGLE ANALYTICS 4 ── -->
-  <!-- Replace G-VQQ9E563GN with your real GA4 Measurement ID from analytics.google.com -->
+  <!-- GOOGLE ANALYTICS 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-VQQ9E563GN"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -47,8 +46,7 @@
     gtag('config', 'G-VQQ9E563GN');
   </script>
 
-  <!-- ── MIXPANEL ── -->
-  <!-- Replace 1ad8ca68ee0fe346ab1f42a1ca0d0a3d with your real token from mixpanel.com -->
+  <!-- MIXPANEL -->
   <script>
     (function(f,b){if(!b.__SV){var e,g,i,h;window.mixpanel=b;b._i=[];b.init=function(e,f,c){function g(a,d){var b=d.split(".");2==b.length&&(a=a[b[0]],d=b[1]);a[d]=function(){a.push([d].concat(Array.prototype.slice.call(arguments,0)))}}var a=b;"undefined"!==typeof c?a=b[c]=[]:c="mixpanel";a.people=a.people||[];a.toString=function(a){var d="mixpanel";"mixpanel"!==c&&(d+="."+c);a||(d+=" (stub)");return d};a.people.toString=function(){return a.toString(1)+".people (stub)"};i="disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(" ");for(h=0;h<i.length;h++)g(a,i[h]);var j="set set_once union unset remove delete".split(" ");a.get_group=function(){function b(c){d[c]=function(){call2_args=arguments;call2=[c].concat(Array.prototype.slice.call(call2_args,0));a.push([e].concat([call2]))}}for(var d={},c=0;c<j.length;c++)b(j[c]);return d};b._i.push([e,f,c])};b.__SV=1.2;e=f.createElement("script");e.type="text/javascript";e.async=!0;e.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===f.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";g=f.getElementsByTagName("script")[0];g.parentNode.insertBefore(e,g)}})(document,window.mixpanel||[]);
     mixpanel.init('1ad8ca68ee0fe346ab1f42a1ca0d0a3d', { track_pageview: true, persistence: 'localStorage' });
@@ -190,6 +188,18 @@
     input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--forest); border: 3px solid #fff; box-shadow: 0 2px 8px rgba(28,58,42,0.3); cursor: pointer; }
     .range-labels { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-light); margin-top: 6px; }
 
+    /* BUDGET REALITY NOTE */
+    .budget-reality-note {
+      margin-top: 12px;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.82rem;
+      color: var(--text-mid);
+      line-height: 1.65;
+      border: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+
     /* BUTTONS */
     .btn-row { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; gap: 12px; }
     .btn-primary { background: var(--forest); color: #fff; border: none; border-radius: var(--radius-md); padding: 0.875rem 2rem; font-family: 'DM Sans', sans-serif; font-size: 0.925rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; transition: all 0.18s; }
@@ -224,69 +234,34 @@
     .sum-label { font-size: 0.7rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
     .sum-val { font-family: 'Fraunces', serif; font-size: 1.35rem; font-weight: 700; color: var(--forest); line-height: 1.2; }
 
-    /* TIMETABLE — Day-grouped layout */
+    /* BUDGET BANNER on results */
+    .budget-banner {
+      display: none;
+      margin-bottom: 1rem;
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      font-size: 0.82rem;
+      line-height: 1.65;
+      border: 1px solid var(--border);
+      color: var(--text-mid);
+    }
+
+    /* TIMETABLE */
     .tt-wrap { border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 1.25rem; overflow: hidden; }
     .tt { display: flex; flex-direction: column; gap: 0; }
-
-    /* Day card */
     .tt-day-card { border-bottom: 1px solid var(--border); }
     .tt-day-card:last-child { border-bottom: none; }
-
-    /* Day header */
-    .tt-day-header {
-      background: var(--forest);
-      color: #fff;
-      padding: 10px 16px;
-      font-family: 'Fraunces', serif;
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .tt-day-header .day-badge {
-      font-size: 0.68rem;
-      font-weight: 500;
-      color: var(--gold);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-    }
-
-    /* Meals row inside each day */
-    .tt-meals-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      background: var(--warm);
-    }
-
-    .tt-meal-slot {
-      padding: 10px 12px;
-      border-right: 1px solid var(--border);
-    }
+    .tt-day-header { background: var(--forest); color: #fff; padding: 10px 16px; font-family: 'Fraunces', serif; font-size: 0.95rem; font-weight: 600; letter-spacing: 0.01em; display: flex; align-items: center; justify-content: space-between; }
+    .tt-day-header .day-badge { font-size: 0.68rem; font-weight: 500; color: var(--gold); letter-spacing: 0.06em; text-transform: uppercase; }
+    .tt-meals-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); background: var(--warm); }
+    .tt-meal-slot { padding: 10px 12px; border-right: 1px solid var(--border); }
     .tt-meal-slot:last-child { border-right: none; }
-
-    .tt-meal-type {
-      font-size: 0.65rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--text-light);
-      margin-bottom: 5px;
-    }
-    .tt-meal-name {
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: var(--text);
-      line-height: 1.4;
-      padding: 5px 8px;
-      border-radius: var(--radius-sm);
-    }
+    .tt-meal-type { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-light); margin-bottom: 5px; }
+    .tt-meal-name { font-size: 0.82rem; font-weight: 500; color: var(--text); line-height: 1.4; padding: 5px 8px; border-radius: var(--radius-sm); }
     .tt-meal-name.breakfast { background: #FFF3CD; color: #7A5A10; }
     .tt-meal-name.lunch     { background: #DCF0DC; color: #1A4A1A; }
     .tt-meal-name.dinner    { background: #C8E8E9; color: #1A4A4C; }
     .tt-meal-name.snack     { background: #E8D0EA; color: #4A1A4C; }
-
     @media (max-width: 540px) {
       .tt-meals-row { grid-template-columns: 1fr 1fr; }
       .tt-meal-slot { border-bottom: 1px solid var(--border); }
@@ -318,86 +293,26 @@
     /* HIDE utility */
     .np-hidden { display: none !important; }
 
-    /* DOWNLOAD BUTTON pulse on results */
+    /* DOWNLOAD BUTTON */
     #download-btn { transition: all 0.18s; }
     #download-btn:hover { border-color: var(--forest); color: var(--forest); }
 
-    /* SHOPPING LIST FORMATTED */
+    /* SHOPPING LIST */
     .sl-wrap { font-size: 0.9rem; color: var(--text-mid); }
     .sl-category { margin-bottom: 1.5rem; border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
-
-    .sl-cat-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      font-family: 'Fraunces', serif;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #fff;
-      padding: 10px 14px;
-      background: var(--forest);
-      border-left: 4px solid var(--gold);
-    }
-    .sl-cat-subtotal {
-      font-size: 0.78rem;
-      font-weight: 500;
-      color: var(--gold);
-      white-space: nowrap;
-    }
-
+    .sl-cat-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-family: 'Fraunces', serif; font-size: 0.95rem; font-weight: 600; color: #fff; padding: 10px 14px; background: var(--forest); border-left: 4px solid var(--gold); }
+    .sl-cat-subtotal { font-size: 0.78rem; font-weight: 500; color: var(--gold); white-space: nowrap; }
     .sl-items { display: flex; flex-direction: column; }
-    .sl-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 14px;
-      background: var(--warm);
-      border-top: 1px solid var(--border);
-      font-size: 0.85rem;
-      gap: 12px;
-      transition: background 0.15s;
-    }
+    .sl-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: var(--warm); border-top: 1px solid var(--border); font-size: 0.85rem; gap: 12px; transition: background 0.15s; }
     .sl-item:hover { background: var(--cream); }
     .sl-item-left { display: flex; flex-direction: column; gap: 2px; flex: 1; }
     .sl-item-name { color: var(--text); font-weight: 500; line-height: 1.4; }
     .sl-item-qty { font-size: 0.72rem; color: var(--text-light); }
-    .sl-item-price {
-      color: var(--forest);
-      font-weight: 700;
-      white-space: nowrap;
-      font-size: 0.85rem;
-      background: var(--cream);
-      padding: 3px 8px;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-    }
-
-    .sl-grand-total {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.1rem 1.25rem;
-      background: var(--forest);
-      border-radius: var(--radius-md);
-      margin-top: 0.5rem;
-      margin-bottom: 0.875rem;
-    }
+    .sl-item-price { color: var(--forest); font-weight: 700; white-space: nowrap; font-size: 0.85rem; background: var(--cream); padding: 3px 8px; border-radius: var(--radius-sm); border: 1px solid var(--border); }
+    .sl-grand-total { display: flex; justify-content: space-between; align-items: center; padding: 1.1rem 1.25rem; background: var(--forest); border-radius: var(--radius-md); margin-top: 0.5rem; margin-bottom: 0.875rem; }
     .sl-grand-label { color: rgba(255,255,255,0.75); font-size: 0.875rem; }
     .sl-grand-value { color: var(--gold); font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 700; }
-
-    .sl-tip {
-      background: var(--gold-l);
-      border: 1px solid rgba(196,151,42,0.3);
-      border-radius: var(--radius-md);
-      padding: 0.875rem 1rem;
-      font-size: 0.82rem;
-      color: var(--text-mid);
-      line-height: 1.65;
-      display: flex;
-      gap: 8px;
-      align-items: flex-start;
-    }
+    .sl-tip { background: var(--gold-l); border: 1px solid rgba(196,151,42,0.3); border-radius: var(--radius-md); padding: 0.875rem 1rem; font-size: 0.82rem; color: var(--text-mid); line-height: 1.65; display: flex; gap: 8px; align-items: flex-start; }
     .sl-tip strong { color: var(--forest); }
 
     /* FOOTER */
@@ -479,12 +394,12 @@
       <div class="section-title">Health goal</div>
       <div class="section-sub">What are you working towards?</div>
       <div class="opt-grid g3" id="goal-grid">
-        <button class="opt-btn" data-val="weight_loss"      onclick="pick(this,'goal')"><span class="opt-emoji">📉</span><span class="opt-label">Weight loss</span><span class="opt-desc">Calorie deficit meals</span></button>
-        <button class="opt-btn" data-val="muscle_gain"      onclick="pick(this,'goal')"><span class="opt-emoji">🏋️</span><span class="opt-label">Muscle gain</span><span class="opt-desc">High protein focus</span></button>
-        <button class="opt-btn" data-val="maintenance"      onclick="pick(this,'goal')"><span class="opt-emoji">⚖️</span><span class="opt-label">Maintenance</span><span class="opt-desc">Balanced calories</span></button>
-        <button class="opt-btn" data-val="energy"           onclick="pick(this,'goal')"><span class="opt-emoji">⚡</span><span class="opt-label">More energy</span><span class="opt-desc">Nutrient-dense meals</span></button>
+        <button class="opt-btn" data-val="weight_loss"       onclick="pick(this,'goal')"><span class="opt-emoji">📉</span><span class="opt-label">Weight loss</span><span class="opt-desc">Calorie deficit meals</span></button>
+        <button class="opt-btn" data-val="muscle_gain"       onclick="pick(this,'goal')"><span class="opt-emoji">🏋️</span><span class="opt-label">Muscle gain</span><span class="opt-desc">High protein focus</span></button>
+        <button class="opt-btn" data-val="maintenance"       onclick="pick(this,'goal')"><span class="opt-emoji">⚖️</span><span class="opt-label">Maintenance</span><span class="opt-desc">Balanced calories</span></button>
+        <button class="opt-btn" data-val="energy"            onclick="pick(this,'goal')"><span class="opt-emoji">⚡</span><span class="opt-label">More energy</span><span class="opt-desc">Nutrient-dense meals</span></button>
         <button class="opt-btn" data-val="increase_appetite" onclick="pick(this,'goal')"><span class="opt-emoji">🍽️</span><span class="opt-label">Eat more</span><span class="opt-desc">Low appetite, need more</span></button>
-        <button class="opt-btn" data-val="weight_gain"      onclick="pick(this,'goal')"><span class="opt-emoji">📈</span><span class="opt-label">Weight gain</span><span class="opt-desc">Healthy calorie surplus</span></button>
+        <button class="opt-btn" data-val="weight_gain"       onclick="pick(this,'goal')"><span class="opt-emoji">📈</span><span class="opt-label">Weight gain</span><span class="opt-desc">Healthy calorie surplus</span></button>
       </div>
       <div class="btn-row"><span></span><button class="btn-primary" onclick="goStep(2)">Continue →</button></div>
     </div>
@@ -501,6 +416,10 @@
       </div>
       <input type="range" min="10000" max="150000" step="2500" value="20000" id="budget-slider" aria-label="Weekly budget slider" oninput="updateBudget(this.value)">
       <div class="range-labels"><span>₦10,000</span><span>₦150,000</span></div>
+
+      <!-- BUDGET REALITY NOTE — shows per-meal breakdown -->
+      <div id="budget-reality" class="budget-reality-note"></div>
+
       <div class="divider"></div>
       <div class="section-title">Your Nigerian cuisine</div>
       <div class="section-sub">Pick your tribe's cuisine — we'll build your plan around it</div>
@@ -516,9 +435,9 @@
       <div class="section-title">Meals per day</div>
       <div class="section-sub">How many meals would you like planned?</div>
       <div class="meals-grid" id="meals-grid">
-        <button class="meal-opt" data-val="2" onclick="pick(this,'meals')"><span class="mn">2</span><span class="ml">Lunch & dinner</span></button>
-        <button class="meal-opt" data-val="3" onclick="pick(this,'meals')"><span class="mn">3</span><span class="ml">Breakfast to dinner</span></button>
-        <button class="meal-opt" data-val="4" onclick="pick(this,'meals')"><span class="mn">4</span><span class="ml">3 meals + snack</span></button>
+        <button class="meal-opt" data-val="2" onclick="pickMeal(this)"><span class="mn">2</span><span class="ml">Lunch & dinner</span></button>
+        <button class="meal-opt" data-val="3" onclick="pickMeal(this)"><span class="mn">3</span><span class="ml">Breakfast to dinner</span></button>
+        <button class="meal-opt" data-val="4" onclick="pickMeal(this)"><span class="mn">4</span><span class="ml">3 meals + snack</span></button>
       </div>
       <div class="btn-row">
         <button class="btn-secondary" onclick="goStep(1)">← Back</button>
@@ -563,6 +482,10 @@
         <div class="sum-card"><div class="sum-label">Avg cal/day</div><div class="sum-val" id="est-cal">—</div></div>
         <div class="sum-card"><div class="sum-label">Meals planned</div><div class="sum-val" id="est-meals">—</div></div>
       </div>
+
+      <!-- BUDGET REALITY BANNER — shown on results -->
+      <div id="budget-banner" class="budget-banner"></div>
+
       <div class="tt-wrap" id="timetable-download-target" role="region" aria-label="Weekly meal timetable"><div class="tt" id="timetable"></div></div>
       <div class="legend">
         <div class="legend-item"><div class="ldot-sq" style="background:#FFF3CD"></div>Breakfast</div>
@@ -598,7 +521,7 @@
       <div class="faq-grid">
         <div class="faq-item"><div class="faq-q">Is NutriPlan free to use?</div><div class="faq-a">Yes — completely free. No sign-up, no credit card, no subscription. Just open the app and generate your plan.</div></div>
         <div class="faq-item"><div class="faq-q">What Nigerian cuisines are supported?</div><div class="faq-a">Yoruba, Igbo, Hausa, Delta/Rivers, and a mixed All-Nigerian option. Each generates dishes authentic to that food culture.</div></div>
-        <div class="faq-item"><div class="faq-q">How accurate are the Naira budget estimates?</div><div class="faq-a">Budget estimates are calibrated to 2026 Nigerian market prices using NBS data. They reflect realistic costs for home cooking across different income levels.</div></div>
+        <div class="faq-item"><div class="faq-q">How accurate are the Naira budget estimates?</div><div class="faq-a">Budget estimates are calibrated to 2026 Nigerian market prices using NBS data. Meals are designed to be genuinely achievable within your chosen budget — including realistic protein choices for each price range.</div></div>
         <div class="faq-item"><div class="faq-q">Can I use this for weight loss?</div><div class="faq-a">Yes. Select "Weight loss" as your health goal and the AI generates calorie-deficit Nigerian meals — without sacrificing the foods you love.</div></div>
         <div class="faq-item"><div class="faq-q">What if I don't like the generated plan?</div><div class="faq-a">Hit the Regenerate button — a completely new AI-generated plan is created instantly with the same preferences.</div></div>
         <div class="faq-item"><div class="faq-q">Is my data stored?</div><div class="faq-a">No. NutriPlan stores nothing. Your preferences are used only to generate your plan and are never saved or tracked.</div></div>
@@ -612,10 +535,8 @@
 </footer>
 
 <script>
-  /* ── STORAGE KEY ── */
   const STORAGE_KEY = 'nutriplan_state';
 
-  /* ── DEFAULT STATE ── */
   const defaultState = {
     diet: null, goal: null,
     meals: null, cuisines: [],
@@ -623,7 +544,6 @@
     currentStep: 1
   };
 
-  /* ── LOAD saved state or use defaults ── */
   function loadState() {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -632,7 +552,6 @@
     return { ...defaultState };
   }
 
-  /* ── SAVE state to localStorage ── */
   function saveState() {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
   }
@@ -642,6 +561,35 @@
   const DAYS  = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
   const SHORT = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 
+  /* ── BUDGET REALITY HELPER ── */
+  function getBudgetReality(budget, mealsPerDay) {
+    const meals    = (parseInt(mealsPerDay) || 2);
+    const total    = meals * 7;
+    const perMeal  = Math.round(parseInt(budget) / total);
+    let msg        = '';
+    let bgColor    = '';
+    let borderColor= '';
+
+    if (parseInt(budget) <= 25000) {
+      msg        = `<strong>₦${parseInt(budget).toLocaleString()} ÷ ${total} meals = ₦${perMeal.toLocaleString()} per meal.</strong> ⚠️ At this budget, proteins will be <strong>eggs, beans, and dried fish</strong>. Chicken, beef, and goat meat are not realistic at ₦${perMeal.toLocaleString()} per meal.`;
+      bgColor    = '#FEF3C7';
+      borderColor= '#FCD34D';
+    } else if (parseInt(budget) <= 45000) {
+      msg        = `<strong>₦${parseInt(budget).toLocaleString()} ÷ ${total} meals = ₦${perMeal.toLocaleString()} per meal.</strong> ✅ At this budget you can afford <strong>eggs, fish, and occasional chicken</strong> (1–2 times a week).`;
+      bgColor    = '#DCFCE7';
+      borderColor= '#86EFAC';
+    } else if (parseInt(budget) <= 75000) {
+      msg        = `<strong>₦${parseInt(budget).toLocaleString()} ÷ ${total} meals = ₦${perMeal.toLocaleString()} per meal.</strong> ✅ Good budget — <strong>chicken, fish, and beef</strong> are affordable regularly.`;
+      bgColor    = '#DCFCE7';
+      borderColor= '#86EFAC';
+    } else {
+      msg        = `<strong>₦${parseInt(budget).toLocaleString()} ÷ ${total} meals = ₦${perMeal.toLocaleString()} per meal.</strong> ✅ Generous budget — <strong>full protein variety</strong> including premium cuts available daily.`;
+      bgColor    = '#DCFCE7';
+      borderColor= '#86EFAC';
+    }
+    return { msg, bgColor, borderColor };
+  }
+
   /* ── PREFERENCE SELECTION ── */
   function pick(el, group) {
     el.closest('.opt-grid, .meals-grid')
@@ -650,8 +598,18 @@
     el.classList.add('selected');
     state[group] = el.dataset.val;
     saveState();
-    // Track selection
     track(group + '_selected', { value: el.dataset.val });
+  }
+
+  /* ── MEAL SELECTION — also updates budget reality note ── */
+  function pickMeal(el) {
+    document.querySelectorAll('.meal-opt').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    state.meals = el.dataset.val;
+    saveState();
+    track('meals_selected', { value: el.dataset.val });
+    // Refresh budget reality with new meal count
+    updateBudgetReality();
   }
 
   function toggleCuisine(el) {
@@ -664,12 +622,23 @@
     track('cuisine_selected', { cuisine: v, selected: el.classList.contains('selected') });
   }
 
+  /* ── UPDATE BUDGET REALITY NOTE ── */
+  function updateBudgetReality() {
+    const reality = document.getElementById('budget-reality');
+    if (!reality) return;
+    const { msg, bgColor, borderColor } = getBudgetReality(state.budget, state.meals || 2);
+    reality.innerHTML          = msg;
+    reality.style.background   = bgColor;
+    reality.style.borderColor  = borderColor;
+  }
+
   function updateBudget(val) {
     state.budget = parseInt(val);
     document.getElementById('budget-display').textContent = '₦' + parseInt(val).toLocaleString();
     const pct = ((val - 10000) / 140000 * 100).toFixed(1);
     document.getElementById('budget-slider').style.setProperty('--val', pct + '%');
     saveState();
+    updateBudgetReality();
   }
 
   /* ── SCROLL TO APP ── */
@@ -686,13 +655,9 @@
     }
     if (n === 3) {
       if (!state.meals) { alert('Please select how many meals per day.'); return; }
-      // Track Step 2 completion
       track('step2_completed', {
-        diet: state.diet,
-        goal: state.goal,
-        budget: state.budget,
-        cuisines: state.cuisines,
-        meals: state.meals
+        diet: state.diet, goal: state.goal,
+        budget: state.budget, cuisines: state.cuisines, meals: state.meals
       });
       setProgress(3);
       showPanel(3);
@@ -700,7 +665,6 @@
       callAPI();
       return;
     }
-    // Track Step 1 completion
     if (n === 2) {
       track('step1_completed', { diet: state.diet, goal: state.goal });
     }
@@ -712,7 +676,6 @@
     document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
     document.getElementById('panel' + n).classList.add('active');
 
-    /* Hide hero, landing, FAQ once user moves past Step 1 */
     const hero    = document.getElementById('hero-section');
     const landing = document.getElementById('landing-section');
     const faq     = document.getElementById('faq-section');
@@ -728,7 +691,8 @@
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    /* Persist step */
+    // Show budget reality note when entering step 2
+    if (n === 2) { updateBudgetReality(); }
     if (n === 1 || n === 2) { state.currentStep = n; saveState(); }
   }
 
@@ -746,41 +710,32 @@
     });
   }
 
-  /* ── RESTORE UI on page load ── */
+  /* ── RESTORE UI ── */
   function restoreUI() {
-    /* Restore diet */
     if (state.diet) {
       const btn = document.querySelector(`#diet-grid [data-val="${state.diet}"]`);
       if (btn) btn.classList.add('selected');
     }
-    /* Restore goal */
     if (state.goal) {
       const btn = document.querySelector(`#goal-grid [data-val="${state.goal}"]`);
       if (btn) btn.classList.add('selected');
     }
-    /* Restore cuisines */
     if (state.cuisines && state.cuisines.length) {
       state.cuisines.forEach(c => {
         const btn = document.querySelector(`#cuisine-grid [data-val="${c}"]`);
         if (btn) btn.classList.add('selected');
       });
     }
-    /* Restore meals */
     if (state.meals) {
       const btn = document.querySelector(`#meals-grid [data-val="${state.meals}"]`);
       if (btn) btn.classList.add('selected');
     }
-    /* Restore budget */
     const slider = document.getElementById('budget-slider');
     slider.value = state.budget;
     updateBudget(state.budget);
 
-    /* Restore step — only 1 or 2 (never restore loading/results) */
     const safeStep = (state.currentStep === 2) ? 2 : 1;
-    if (safeStep === 2) {
-      setProgress(2);
-      showPanel(2);
-    }
+    if (safeStep === 2) { setProgress(2); showPanel(2); }
   }
 
   /* ── LOADING ANIMATION ── */
@@ -838,63 +793,56 @@
     const tt = document.getElementById('timetable');
     tt.innerHTML = '';
 
-    // Build day-grouped layout — Monday first, all meals together
     DAYS.forEach((day, di) => {
       const dayCard = document.createElement('div');
       dayCard.className = 'tt-day-card';
-
-      // Day header
       const dayHeader = document.createElement('div');
       dayHeader.className = 'tt-day-header';
       dayHeader.innerHTML = `<span>${day}</span><span class="day-badge">${SHORT[di]}</span>`;
       dayCard.appendChild(dayHeader);
-
-      // Meals row
       const mealsRow = document.createElement('div');
       mealsRow.className = 'tt-meals-row';
-
       mealTypes.forEach(mt => {
         const slot = document.createElement('div');
         slot.className = 'tt-meal-slot';
-
         const typeLabel = document.createElement('div');
         typeLabel.className = 'tt-meal-type';
         typeLabel.textContent = mt.charAt(0).toUpperCase() + mt.slice(1);
-
         const mealName = document.createElement('div');
         mealName.className = `tt-meal-name ${mt}`;
         mealName.textContent = plan.days?.[day]?.[mt] || '—';
-
         slot.appendChild(typeLabel);
         slot.appendChild(mealName);
         mealsRow.appendChild(slot);
       });
-
       dayCard.appendChild(mealsRow);
       tt.appendChild(dayCard);
     });
 
     document.getElementById('shopping-card').style.display = 'none';
+
+    // ── BUDGET REALITY BANNER on results ──
+    const banner = document.getElementById('budget-banner');
+    if (banner) {
+      const { msg, bgColor, borderColor } = getBudgetReality(state.budget, mealCount);
+      banner.style.display     = 'block';
+      banner.style.background  = bgColor;
+      banner.style.borderColor = borderColor;
+      banner.innerHTML         = msg;
+    }
+
     setProgress(3);
     document.getElementById('dot3').textContent = '✓';
     document.getElementById('dot3').className = 'step-dot done';
 
-    // Track plan generation
     if (!isFallback) {
       track('plan_generated', {
-        diet: state.diet,
-        goal: state.goal,
-        budget: state.budget,
-        cuisines: state.cuisines,
-        meals: state.meals,
+        diet: state.diet, goal: state.goal, budget: state.budget,
+        cuisines: state.cuisines, meals: state.meals,
         estimated_cost: plan.estimated_weekly_cost || 'unknown'
       });
     } else {
-      track('plan_fallback_shown', {
-        diet: state.diet,
-        goal: state.goal,
-        budget: state.budget
-      });
+      track('plan_fallback_shown', { diet: state.diet, goal: state.goal, budget: state.budget });
     }
 
     showPanel(4);
@@ -904,32 +852,29 @@
   function renderFallback() {
     renderPlan({
       days: {
-        Monday:    { breakfast: 'Akara & ogi (pap)',         lunch: 'Jollof rice & fried chicken',   dinner: 'Egusi soup & pounded yam',    snack: 'Chin chin & zobo' },
-        Tuesday:   { breakfast: 'Moi moi & agege bread',     lunch: 'Ofada rice & ayamase stew',     dinner: 'Efo riro & eba',              snack: 'Roasted plantain & groundnuts' },
-        Wednesday: { breakfast: 'Yam & egg sauce',           lunch: 'Fried rice & peppered chicken', dinner: 'Ofe onugbu & fufu',           snack: 'Puff puff' },
-        Thursday:  { breakfast: 'Akara & pap',               lunch: 'Amala & ewedu with gbegiri',    dinner: 'Banga soup & starch',         snack: 'Kuli kuli' },
-        Friday:    { breakfast: 'Bread & fried eggs',        lunch: 'Tuwo shinkafa & miyan kuka',    dinner: 'Ogbono soup & pounded yam',   snack: 'Roasted corn & ube' },
-        Saturday:  { breakfast: 'Plantain & scrambled eggs', lunch: 'Pepper soup & agidi',           dinner: 'Afang soup & eba',            snack: 'Suya & onions' },
-        Sunday:    { breakfast: 'Ogi & moi moi',             lunch: 'Native jollof & assorted meat', dinner: 'Oha soup & fufu',             snack: 'Groundnut & tiger nut' }
+        Monday:    { breakfast: 'Akara & ogi (pap)',         lunch: 'Jollof rice & fried egg',     dinner: 'Beans porridge & plantain',   snack: 'Chin chin & zobo' },
+        Tuesday:   { breakfast: 'Moi moi & agege bread',     lunch: 'Ofada rice & garden egg stew', dinner: 'Efo riro & small fish',       snack: 'Roasted plantain & groundnuts' },
+        Wednesday: { breakfast: 'Yam & egg sauce',           lunch: 'Beans & fried plantain',       dinner: 'Catfish pepper soup (light)', snack: 'Puff puff' },
+        Thursday:  { breakfast: 'Akara & pap',               lunch: 'Amala & ewedu with dried fish', dinner: 'Vegetable soup & boiled egg', snack: 'Kuli kuli' },
+        Friday:    { breakfast: 'Bread & fried eggs',        lunch: 'Rice & egg stew',              dinner: 'Moi moi & vegetables',        snack: 'Roasted corn' },
+        Saturday:  { breakfast: 'Plantain & scrambled eggs', lunch: 'Beans & yam',                  dinner: 'Garden egg stew & fish',      snack: 'Groundnut' },
+        Sunday:    { breakfast: 'Ogi & moi moi',             lunch: 'Jollof rice & beans',          dinner: 'Light pepper soup & fish',    snack: 'Tiger nuts & banana' }
       },
       estimated_weekly_cost: `₦${Math.round(state.budget * 0.88).toLocaleString()}–₦${state.budget.toLocaleString()}`,
-      avg_calories_per_day: '1,950 kcal',
-      notes: 'A balanced Nigerian meal plan. Regenerate for a fully AI-personalized version.'
+      avg_calories_per_day: '1,850 kcal',
+      notes: 'A budget-realistic Nigerian meal plan. Regenerate for a fully AI-personalized version.'
     }, true);
   }
 
   /* ── RENDER SHOPPING LIST ── */
   function renderShoppingList(text) {
     const container = document.getElementById('shopping-content');
-
     if (!text || text.trim().length < 10) {
       container.innerHTML = '<p style="color:var(--text-light);font-size:0.875rem;padding:1rem;">Could not generate shopping list. Please try again.</p>';
       return;
     }
-
     const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
     let html = '';
-    let inCategory = false;
     let currentItems = [];
     let currentHeader = '';
     let grandTotal = '';
@@ -937,10 +882,7 @@
 
     function flushCategory() {
       if (!currentHeader) return;
-      // Calculate subtotal from items in this category
-      let catTotal = '';
       const itemsHtml = currentItems.map(item => {
-        // Split: name — quantity — price
         const parts = item.split(/\s*[—–]\s*/);
         const name  = parts[0] || item;
         const qty   = parts[1] || '';
@@ -954,9 +896,7 @@
         </div>`;
       }).join('');
       html += `<div class="sl-category">
-        <div class="sl-cat-header">
-          <span>${currentHeader}</span>
-        </div>
+        <div class="sl-cat-header"><span>${currentHeader}</span></div>
         <div class="sl-items">${itemsHtml}</div>
       </div>`;
       currentItems = [];
@@ -964,50 +904,36 @@
     }
 
     lines.forEach(line => {
-      // Grand total line
       if (line.includes('ESTIMATED WEEKLY TOTAL') || (line.includes('TOTAL') && line.includes('₦'))) {
         flushCategory();
         const parts = line.split(':');
         grandTotal = parts.length > 1 ? parts.slice(1).join(':').trim() : line;
         return;
       }
-      // Budget tip
       if (line.includes('BUDGET TIP') || line.startsWith('💡')) {
         flushCategory();
         tipText = line.replace('💡', '').replace('BUDGET TIP:', '').replace('BUDGET TIP', '').trim();
         return;
       }
-      // Category header — starts with emoji or is ALL CAPS
-      const emojiStart = /^[📦🥩🥬🫙🧺🥚🌾🍎🫙]/u.test(line);
+      const emojiStart = /^[📦🥩🥬🫙🧺🥚🌾🍎]/u.test(line);
       const allCaps = line === line.toUpperCase() && line.length > 4 && !line.startsWith('•');
-      if (emojiStart || allCaps) {
-        flushCategory();
-        currentHeader = line;
-        return;
-      }
-      // Item line
+      if (emojiStart || allCaps) { flushCategory(); currentHeader = line; return; }
       if (line.startsWith('•') || line.startsWith('-') || line.startsWith('*')) {
-        const clean = line.replace(/^[•\-*]\s*/, '');
-        currentItems.push(clean);
+        currentItems.push(line.replace(/^[•\-*]\s*/, ''));
         return;
       }
     });
-
     flushCategory();
 
-    // Grand total banner
     if (grandTotal) {
       html += `<div class="sl-grand-total">
         <span class="sl-grand-label">Estimated weekly total</span>
         <span class="sl-grand-value">${grandTotal}</span>
       </div>`;
     }
-
-    // Budget tip
     if (tipText) {
       html += `<div class="sl-tip"><span>💡</span><span><strong>Market tip:</strong> ${tipText}</span></div>`;
     }
-
     container.innerHTML = html || '<p style="color:var(--text-light);font-size:0.875rem;padding:1rem;">Shopping list could not be parsed. Please regenerate.</p>';
   }
 
@@ -1016,42 +942,29 @@
     setProgress(3); showPanel(3); runLoadingAnimation(); callAPI();
   }
 
-  /* ── DOWNLOAD TIMETABLE AS IMAGE ── */
+  /* ── DOWNLOAD ── */
   async function downloadPlan() {
     const btn = document.getElementById('download-btn');
     btn.textContent = '⏳ Saving...';
     btn.disabled = true;
-
     try {
-      // Target the timetable wrap specifically for a clean download
       const target = document.getElementById('timetable-download-target');
-
-      if (!target) {
-        throw new Error('Timetable not found');
-      }
-
+      if (!target) throw new Error('Timetable not found');
       const canvas = await html2canvas(target, {
-        backgroundColor: '#FFFDF9',
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        allowTaint: true,
-        windowWidth: 800
+        backgroundColor: '#FFFDF9', scale: 2, useCORS: true,
+        logging: false, allowTaint: true, windowWidth: 800
       });
-
       const link = document.createElement('a');
       link.download = 'NutriPlan_' + (state.diet || 'meal') + '_' + (state.goal || 'plan') + '_week.png';
       link.href = canvas.toDataURL('image/png');
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-
       track('plan_downloaded', { diet: state.diet, goal: state.goal, budget: state.budget });
     } catch(e) {
       alert('Could not save plan. Please take a screenshot instead.');
       console.error('Download error:', e);
     }
-
     btn.textContent = '⬇ Save plan';
     btn.disabled = false;
   }
@@ -1063,7 +976,16 @@
     btn.textContent = '⏳ Generating...';
     btn.disabled = true;
     try {
-      const res  = await fetch('/api/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ diet: state.diet, goal: state.goal, budget: state.budget, cuisines: state.cuisines.length ? state.cuisines : ['national'], meals: parseInt(state.meals), shoppingList: true, timetableContext: timetableText }) });
+      const res  = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          diet: state.diet, goal: state.goal, budget: state.budget,
+          cuisines: state.cuisines.length ? state.cuisines : ['national'],
+          meals: parseInt(state.meals), shoppingList: true,
+          timetableContext: timetableText
+        })
+      });
       const data = await res.json();
       renderShoppingList(data.shoppingList || '');
     } catch(e) {
@@ -1075,32 +997,15 @@
     btn.disabled = false;
   }
 
-  /* ── ANALYTICS HELPERS ── */
-
-  // Safe wrapper — fires to both GA4 and Mixpanel if available
+  /* ── ANALYTICS ── */
   function track(eventName, properties = {}) {
-    try {
-      // Mixpanel
-      if (window.mixpanel && typeof mixpanel.track === 'function') {
-        mixpanel.track(eventName, properties);
-      }
-    } catch(e) {}
-    try {
-      // GA4
-      if (window.gtag) {
-        gtag('event', eventName, properties);
-      }
-    } catch(e) {}
+    try { if (window.mixpanel && typeof mixpanel.track === 'function') { mixpanel.track(eventName, properties); } } catch(e) {}
+    try { if (window.gtag) { gtag('event', eventName, properties); } } catch(e) {}
   }
 
   /* ── INIT ── */
   restoreUI();
-
-  // Track page view with context
-  track('page_viewed', {
-    referrer: document.referrer || 'direct',
-    device: window.innerWidth < 768 ? 'mobile' : 'desktop'
-  });
+  track('page_viewed', { referrer: document.referrer || 'direct', device: window.innerWidth < 768 ? 'mobile' : 'desktop' });
 </script>
 </body>
 </html>

@@ -1,12 +1,9 @@
 // api/generate.js
 // Vercel Serverless Function — Claude API Proxy
 // API key never reaches the browser. All inputs sanitized server-side.
-// v20 — Updated: new health goals, goal-specific nutrition guidance
+// v21 — Budget accuracy fix: per-meal constraints + tier-based guidance
 
 // ── 2026 NIGERIAN MARKET PRICE REFERENCE ──────────────────────────────────
-// Sources: NBS Food Price Watch, NigerianQueries April 2026, McEbisco Market Data
-// Prices are Lagos/South averages. Northern markets may be 10–20% cheaper.
-// Updated: June 2026. Review monthly for accuracy.
 const NIGERIAN_MARKET_PRICES = `
 CURRENT NIGERIAN MARKET PRICES (June 2026 — Lagos/South average):
 
@@ -78,6 +75,37 @@ NOTE: Prices vary by location (Lagos is 10–20% higher than Northern markets),
 season, and whether buying at open market vs supermarket.
 Bulk purchases reduce cost by 15–30%.
 `;
+
+// ── FIX: Budget tier guidance ─────────────────────────────────────────────
+// Tells the AI what protein and meal quality is REALISTIC at each budget level
+function getBudgetTierGuidance(weeklyBudget, mealsPerDay) {
+  const totalMeals = mealsPerDay * 7;
+  const perMeal = Math.round(weeklyBudget / totalMeals);
+
+  let tier = '';
+  let proteinGuidance = '';
+  let mealGuidance = '';
+
+  if (weeklyBudget <= 25000) {
+    tier = 'TIGHT BUDGET';
+    proteinGuidance = `Protein MUST come from: eggs (₦150–₦200 each), beans (₦1,500/kg), dried fish (₦800–₦1,500/piece), sardines. Chicken, beef, and goat meat are NOT affordable at this budget. Use small quantities of dried/smoked fish as flavouring rather than main protein.`;
+    mealGuidance = `Meals at this budget are simple one-pot dishes. Examples: beans & garri, egg sauce & yam, ogi & akara, rice & egg stew, beans porridge, vegetable soup with dried fish, yam & garden egg stew. No expensive proteins. Bulk staples (garri, rice, beans) should anchor every meal.`;
+  } else if (weeklyBudget <= 45000) {
+    tier = 'MODERATE BUDGET';
+    proteinGuidance = `Protein can include: eggs, beans, dried/smoked fish, small portions of fresh catfish (once or twice a week). Chicken or beef can appear 1–2 times max across the whole week in very small portions (100–150g). Beans and eggs are the daily protein workhorses.`;
+    mealGuidance = `Meals can include: jollof rice with egg or small fish, beans & plantain, catfish pepper soup (once or twice), rice & stew with a small piece of fish, yam & egg sauce, moi moi. Variety is possible but luxury proteins stay rare.`;
+  } else if (weeklyBudget <= 75000) {
+    tier = 'COMFORTABLE BUDGET';
+    proteinGuidance = `Protein can include: fresh fish (catfish, tilapia), chicken (3–4 times a week), eggs, beans. Beef or goat meat can appear 1–2 times. Good variety of proteins possible.`;
+    mealGuidance = `Meals can include full Nigerian restaurant-quality dishes: jollof rice & chicken, fried rice & fish, pounded yam & egusi with meat, ofada rice & stew, banga soup & starch. Quality proteins at most meals.`;
+  } else {
+    tier = 'GENEROUS BUDGET';
+    proteinGuidance = `Full protein variety available: chicken, beef, goat meat, fresh fish, seafood, eggs. Premium cuts and multiple proteins per meal are affordable.`;
+    mealGuidance = `Premium Nigerian meals possible at every meal. No restrictions on protein type or quantity. Can include seafood, premium cuts, and restaurant-quality portions daily.`;
+  }
+
+  return { tier, perMeal, totalMeals, proteinGuidance, mealGuidance };
+}
 
 export default async function handler(req, res) {
 
@@ -152,9 +180,8 @@ Rules:
         })
       });
 
-      const data     = await response.json();
-      const list     = data.content.map(b => b.text || '').join('');
-
+      const data = await response.json();
+      const list = data.content.map(b => b.text || '').join('');
       return res.status(200).json({ success: true, shoppingList: list });
 
     } catch (e) {
@@ -184,6 +211,10 @@ Rules:
   mealTypes.push('lunch', 'dinner');
   if (safeMeals === 4) mealTypes.push('snack');
 
+  // ── FIX: Calculate per-meal budget and tier guidance ──────────────────
+  const { tier, perMeal, totalMeals, proteinGuidance, mealGuidance } =
+    getBudgetTierGuidance(safeBudget, safeMeals);
+
   const prompt = `You are a professional Nigerian nutritionist and meal planner based in Lagos.
 Generate a personalized 7-day meal timetable (Monday–Sunday) for a Nigerian user.
 
@@ -193,6 +224,23 @@ User profile:
 - Meals per day: ${safeMeals} (${mealTypes.join(', ')})
 - Weekly budget: ₦${safeBudget.toLocaleString()} (Nigerian Naira)
 - Cuisine preferences: ${safeCuisines.join(', ')}
+
+BUDGET REALITY CHECK — THIS IS CRITICAL:
+- Budget tier: ${tier}
+- Total meals for the week: ${totalMeals} meals
+- Maximum spend per meal: ₦${perMeal.toLocaleString()}
+- This means each meal (ingredients + cooking) must cost NO MORE than ₦${perMeal.toLocaleString()}
+
+PROTEIN CONSTRAINT FOR THIS BUDGET:
+${proteinGuidance}
+
+MEAL TYPE CONSTRAINT FOR THIS BUDGET:
+${mealGuidance}
+
+You MUST design meals that are genuinely achievable within ₦${perMeal.toLocaleString()} per meal.
+Do NOT suggest chicken, beef, or goat meat unless the per-meal budget is above ₦3,000.
+Do NOT suggest premium ingredients unless the weekly budget is above ₦50,000.
+Every meal you suggest must be something a real Lagos family could cook at this price.
 
 Return ONLY valid JSON — no markdown, no explanation, no preamble.
 
@@ -216,9 +264,8 @@ Rules:
 - Meal names: 3–6 words max
 - Use Nigerian dish names authentically but apply strict meal-time logic (see below)
 - Breakfast options: Akara & pap, Moi moi & bread, Yam & egg sauce, Ogi & akara, Plantain & eggs, Bread & Akara, Oat & milk, Ogi & groundnut
-- Lunch options (main heavy meal of the day): Jollof Rice & chicken, Ofada Rice & stew, Fried Rice & fish, Beans & plantain, Amala & ewedu, Pounded yam & egusi, Tuwo shinkafa & miyan kuka, Banga soup & starch, Ofe onugbu & fufu
+- Lunch options (main heavy meal of the day): Jollof Rice & fish/egg/beans (depending on budget), Ofada Rice & stew, Beans & plantain, Amala & ewedu, Pounded yam & egusi, Tuwo shinkafa & miyan kuka, Banga soup & starch, Ofe onugbu & fufu
 - Dinner options (MUST be light and healthy): Pepper soup without swallow, Grilled fish & vegetable salad, Egg sauce & small yam, Moi moi & vegetables, Efo riro lite & small portion, Light catfish pepper soup, Vegetable stir fry & fish, Beans porridge (light), Garden egg stew & grilled fish, Chicken vegetable soup, Ukazi soup & small protein
-- Snack options: Chin chin, Puff puff, Roasted plantain, Groundnuts, Suya, Kuli kuli, Zobo, Roasted corn, Tiger nuts, Banana
 - DINNER RULES — strictly enforce every single day:
     * Dinner MUST be lighter than lunch — swallow foods (pounded yam, eba, amala, fufu, tuwo) are for LUNCH only, never dinner
     * Heavy soups (egusi, ogbono, banga, ofe onugbu) belong at LUNCH only
@@ -236,7 +283,8 @@ Rules:
     weight_gain      = calorie surplus with healthy Nigerian foods (fried plantain, groundnut soup, agege bread, full-fat milk, beans)
     high_protein     = prioritize eggs, fish, chicken, beans, egusi at every meal
     low_carb         = reduce rice, yam, fufu — increase vegetables, fish, eggs, meat
-- Budget estimate MUST be in Naira (₦) and within ±15% of ₦${safeBudget.toLocaleString()}/week`;
+- Budget estimate MUST be in Naira (₦) and within ±10% of ₦${safeBudget.toLocaleString()}/week
+- CRITICAL: The estimated_weekly_cost MUST be close to ₦${safeBudget.toLocaleString()} — not significantly higher`;
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -279,7 +327,17 @@ Rules:
         .replace(/USD/gi, '₦');
     }
 
-    return res.status(200).json({ success: true, plan });
+    // ── FIX: Return per-meal budget info to frontend ──────────────────
+    return res.status(200).json({
+      success: true,
+      plan,
+      budgetInfo: {
+        weeklyBudget: safeBudget,
+        perMeal,
+        totalMeals,
+        tier
+      }
+    });
 
   } catch (error) {
     console.error('Generate error:', error.message);

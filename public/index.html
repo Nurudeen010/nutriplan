@@ -796,11 +796,11 @@
     // Strip parenthetical notes e.g. "Jollof rice (party style)" → "Jollof rice"
     const clean = mealName.replace(/\(.*?\)/g, '').trim();
     const encoded = encodeURIComponent(clean);
-    const url = `https://chowdeck.com/search?q=${encoded}`;
+    const url = `https://www.google.com/search?q=order+${encoded}+food+delivery+Lagos`;
     return `<a href="${url}" target="_blank" rel="noopener noreferrer"
       class="chowdeck-link"
       onclick="track('chowdeck_clicked', { meal: '${clean.replace(/'/g, "\\'")}', budget: state.budget })"
-    >🛵 Order</a>`;
+    >🛵 Order online</a>`;
   }
 
   /* ── RENDER PLAN ── */

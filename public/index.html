@@ -268,6 +268,30 @@
       .tt-meal-slot:nth-last-child(-n+2) { border-bottom: none; }
     }
 
+    /* CHOWDECK ORDER LINK */
+    .chowdeck-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 5px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--forest);
+      text-decoration: none;
+      background: rgba(28,58,42,0.07);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2px 8px;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .chowdeck-link:hover {
+      background: var(--forest);
+      color: #fff;
+      border-color: var(--forest);
+      text-decoration: none;
+    }
+
     /* LEGEND */
     .legend { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 1.25rem; }
     .legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.78rem; color: var(--text-mid); }
@@ -416,10 +440,7 @@
       </div>
       <input type="range" min="10000" max="150000" step="2500" value="20000" id="budget-slider" aria-label="Weekly budget slider" oninput="updateBudget(this.value)">
       <div class="range-labels"><span>₦10,000</span><span>₦150,000</span></div>
-
-      <!-- BUDGET REALITY NOTE — shows per-meal breakdown -->
       <div id="budget-reality" class="budget-reality-note"></div>
-
       <div class="divider"></div>
       <div class="section-title">Your Nigerian cuisine</div>
       <div class="section-sub">Pick your tribe's cuisine — we'll build your plan around it</div>
@@ -482,10 +503,7 @@
         <div class="sum-card"><div class="sum-label">Avg cal/day</div><div class="sum-val" id="est-cal">—</div></div>
         <div class="sum-card"><div class="sum-label">Meals planned</div><div class="sum-val" id="est-meals">—</div></div>
       </div>
-
-      <!-- BUDGET REALITY BANNER — shown on results -->
       <div id="budget-banner" class="budget-banner"></div>
-
       <div class="tt-wrap" id="timetable-download-target" role="region" aria-label="Weekly meal timetable"><div class="tt" id="timetable"></div></div>
       <div class="legend">
         <div class="legend-item"><div class="ldot-sq" style="background:#FFF3CD"></div>Breakfast</div>
@@ -601,14 +619,12 @@
     track(group + '_selected', { value: el.dataset.val });
   }
 
-  /* ── MEAL SELECTION — also updates budget reality note ── */
   function pickMeal(el) {
     document.querySelectorAll('.meal-opt').forEach(b => b.classList.remove('selected'));
     el.classList.add('selected');
     state.meals = el.dataset.val;
     saveState();
     track('meals_selected', { value: el.dataset.val });
-    // Refresh budget reality with new meal count
     updateBudgetReality();
   }
 
@@ -690,8 +706,6 @@
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    // Show budget reality note when entering step 2
     if (n === 2) { updateBudgetReality(); }
     if (n === 1 || n === 2) { state.currentStep = n; saveState(); }
   }
@@ -776,6 +790,19 @@
     } catch (err) { console.error('API error:', err); renderFallback(); }
   }
 
+  /* ── CHOWDECK DEEP LINK ── */
+  function chowdeckLink(mealName) {
+    if (!mealName || mealName === '—') return '';
+    // Strip parenthetical notes e.g. "Jollof rice (party style)" → "Jollof rice"
+    const clean = mealName.replace(/\(.*?\)/g, '').trim();
+    const encoded = encodeURIComponent(clean);
+    const url = `https://chowdeck.com/search?q=${encoded}`;
+    return `<a href="${url}" target="_blank" rel="noopener noreferrer"
+      class="chowdeck-link"
+      onclick="track('chowdeck_clicked', { meal: '${clean.replace(/'/g, "\\'")}', budget: state.budget })"
+    >🛵 Order</a>`;
+  }
+
   /* ── RENDER PLAN ── */
   function renderPlan(plan, isFallback) {
     const mealCount = parseInt(state.meals);
@@ -796,32 +823,46 @@
     DAYS.forEach((day, di) => {
       const dayCard = document.createElement('div');
       dayCard.className = 'tt-day-card';
+
       const dayHeader = document.createElement('div');
       dayHeader.className = 'tt-day-header';
       dayHeader.innerHTML = `<span>${day}</span><span class="day-badge">${SHORT[di]}</span>`;
       dayCard.appendChild(dayHeader);
+
       const mealsRow = document.createElement('div');
       mealsRow.className = 'tt-meals-row';
+
       mealTypes.forEach(mt => {
         const slot = document.createElement('div');
         slot.className = 'tt-meal-slot';
+
         const typeLabel = document.createElement('div');
         typeLabel.className = 'tt-meal-type';
         typeLabel.textContent = mt.charAt(0).toUpperCase() + mt.slice(1);
+
+        const mealText = plan.days?.[day]?.[mt] || '—';
+
         const mealName = document.createElement('div');
         mealName.className = `tt-meal-name ${mt}`;
-        mealName.textContent = plan.days?.[day]?.[mt] || '—';
+        mealName.textContent = mealText;
+
+        // Chowdeck order link
+        const orderLink = document.createElement('div');
+        orderLink.innerHTML = chowdeckLink(mealText);
+
         slot.appendChild(typeLabel);
         slot.appendChild(mealName);
+        slot.appendChild(orderLink);
         mealsRow.appendChild(slot);
       });
+
       dayCard.appendChild(mealsRow);
       tt.appendChild(dayCard);
     });
 
     document.getElementById('shopping-card').style.display = 'none';
 
-    // ── BUDGET REALITY BANNER on results ──
+    // Budget reality banner on results
     const banner = document.getElementById('budget-banner');
     if (banner) {
       const { msg, bgColor, borderColor } = getBudgetReality(state.budget, mealCount);
